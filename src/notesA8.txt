@@ -1,0 +1,50 @@
+Still to do:
+  check if member is admin prior to boot
+  change name of house
+  show featureset
+
+  integrate chore and supplies
+
+
+DONE to Refactor away from storing a members array in firebase to using a pure object:
+
+patch the pushId just before .json and then pass the data you want to store in that node
+
+DONE house/createNewHouse -
+		- Remove the members array
+		- Remove the push command
+		- Pass payload to member/addmember
+				userId and isAdmin:true
+
+
+DONE Addeded new Action: "addCreatorToHouse"
+
+
+ DONE-    house/fetchActiveHouse
+	- Need to convert members object into a usable array for state use.
+		- try Array.from(obj) - this just creates an empty array of length zero
+		-  Use for (let variable in object)
+				- push each variable into a new array
+				- Now you have an array of IDs you can use to get the member info
+				-- OOPS that's way harder than it needs to be
+				-- the object and array are always of same length so only one loop is needed
+				- user the for-in loop with object[square bracket notation] to get data
+
+
+  DONE  member/addMember
+		- Refactor to accept payload {userId, isAdmin}
+		- unless payload is passed at house creation, isAdmin is false
+		- Check if they are a member
+		- if not, patch a new node to house/members
+
+
+	user/setUserInfo
+		- I don't think any changes are needed, but we shall see
+
+
+  DONE member/removeMember
+	- Refactor to delete node matching passed userid
+	- this should shorten the function by A LOT
+	- -- This is A LOT shorter now!! :-)
+
+

@@ -1,0 +1,285 @@
+To use a pushId as nodeID
+  patch the pushId just before .json and then pass the data you want to store in that node
+
+For AdminHouse:
+    X need to get user and admin info into active house
+    lookin  fetch active house - inside get
+    - MODEL FROM FETCHUSER
+    maybe setActiveHouse
+    I should be getting admin info in fetchActiveHouse,
+      then userInfo can get it from actyive house members
+
+For A8
+  Full integration of Supplies and ChoreWheel
+  FeatureSet nodes are only added to a house when the first supply or chore is added
+  When the last supply or chore is deleted,
+
+  questions to Answer:
+    What is more efficient when a featureSet becomes empty and then filled again ?
+      - should its node in houses be deleted and re-created or set to false and back to true?
+
+
+MAJOR CHANGES
+  Refactor so members userIds are their nodeIds
+    user/setUserInfo
+
+    member/addMember
+    member/removeMember
+
+    house/createNewHouse
+    house/fetchActiveHouse
+
+
+
+
+  Need to show who is Admin and who is not
+  Admins need to be able to add admins
+  Remove members from house with double switch protection
+  When all members are removed, house goes bye bye along with all its data
+  Refactor all "houseId" entries to "HouseId" bc houseId is confusing and has case issues with the 'k'
+
+  DONE Need an add member helper function - use it for everyone including creator
+        - currently creator is added in createNewHouse
+
+
+
+NEXT UP:
+  Adminstrate House
+      Show/change name of house
+      Delete house
+      Show Admins of House - have it show Admin next to the appropriate members
+      Show Members of House
+          - Delete member
+      Show featureSet
+
+
+Check if user belongs to a house,
+    if so, display house info
+    If not, then display the option to join or create one
+
+
+
+
+XX When creating a new house, add appropriate nodes to supply and chore nodes in firebase
+
+Creating a House
+   When a house is created, that house should be set to Active.
+   a houseId is generated and returned...
+   it can be stored in state, then used again,
+   being changed only when name logs out or changes the active house
+
+
+** BUGS AND SOLUTIONS **
+
+
+UNRESOLVED BUGS
+
+BUG - When user isn't in a house, their name does not display anywhere
+    - problem is that when a user has no house, set user is passed no info
+    RESOLUTION
+      1. If no payload is passed to set user info, go to db and get it
+      2. Call set userInfo from .catch and pass it null
+
+
+
+
+
+****
+Maybe have the thing look to see if a name has a house or not, then do the right thing
+Maybe this isn't even a bug.
+
+BUG: When signing in without a house
+      "log06 fetchActiveHouse users catch  TypeError: Cannot read property 'active' of null"
+       houseModule line 136
+
+BUG: When there is no house in firebase
+  "TypeError: Cannot read property 'houseId' of undefined
+       at eval (authM.js?13ba:85)"
+  - in fetchUser
+
+
+
+************************** RESOLVED BUGS **************************
+
+FIXED BUG - Can't user's can create a house but not join a house
+    - Solution: one letter 'k' in 'houseId' was capitalized when it was not supposed to be
+    - It was hard to tell by looking
+    - retyped code and it worked, but code looked the same to my eye.
+    - got ascii values by pasting each line into http://asciivalue.com/ - found different ascii value for k and K
+
+FIXED BUG - Create house diaglogue visible after house creation - belongsToHouse is set to true.
+    Solution: move an ending div
+
+FIXED BUG- v-if not working with radio buttons
+    - radio buttons pass strings and v-if doesn't cast from string to boolean
+     - you have b-if check for a string
+     - Solution: radio buttons pass strings, not bools. Set the v-if to work with a string.
+
+FIXED BUG - Loads signin when load refreshed - seems to not see store.state.authM.idToken
+    - Solution: moved a router.replace from one method to the one that fire after it.
+
+Housekey disappears from localstorage
+  - need to fetch it from name node in firebase, then use it
+  - can pull it from users.house.houseId node
+  -- on Created, Check if name is in a house. If so, load that house, if not prompt to join or create a house
+  - was difficult to set from Firebase
+    - because async code was finishing second get before first get was resolved
+    - solution: run one get-request inside the other
+
+
+
+Entire authM code cascade was being called 3 times resulting in hundreds of calls
+    - I had authM imported into N other modules
+     - when you do that, any code called from outside the module is called N times
+     - instead use rootstate
+
+
+autologout timer not being set properly, logging out instantly
+  - I was passing the delay time arg to the action logout instead of to setTimeout()
+
+
+dashboard route not working with auth
+    FIXED- it has something to do with the way beforeEnter is syntaxed
+        - needed to use correct dot notation when referencing the authM
+          -** to refrence from a module use store.state.moduleName.propertyName **-
+
+
+Could not set unique key name in Firebase
+      -SOLUTION - use 'patch' instead of 'post'
+        'users/' + desiredKeyName + '.json/'
+
+Could not store firebase push id inside of firebase
+  it just wouldn't do it, no error, just no result
+  solved: store it in local storage, then read it from there
+    it saves it no problem
+
+Could not add a second house to a name node in firebase
+  - had to change syntax from uid + '.json TO uid + '/houses.json'
+    - change arg syntax, create an empty object
+      - then use bracket notation without a dot to use captured firebase node name
+        - myObj[firebase PushID] = true
+
+
+To do in A7
+
+12/17
+Make refresh work
+
+Change: only one house per name allowed! - for now
+
+XX get basic house module working
+
+
+ XX create users list in firebase db - "use patch instead of post to set id as key"
+  - should include UID from auth as unique key
+
+
+XX logout
+  - button
+    - action
+
+XX auto log out
+
+XX auto lot IN
+
+
+
+XX Add authentication
+- in menu and a drop down for sign-up, Sign-in, Log-out,
+
+
+XX Create the following features:
+    Sign up
+    Sign In
+    Log in
+        until token expires
+    Auto log out after one hour
+
+    strikeout Household
+    strikeout Roomie
+
+
+ Authentication should:
+    Sign up allows name access to one or more houses in separate instances
+        -- You must sign out of one to enter another
+    Should be able to create a new house
+        -- you are now admin
+    join an existing house
+
+
+  Questions to answer:
+    How to allocate chores across users when n-users != n-chores
+
+
+
+Database/Auth Structure
+
+Every time a house is created it adds a child with it's own house-UID as key to each stuff-node
+  - example: supplies and chores each get a node with the house-ID as key
+
+Each name object holds the UID, PID, and a list of the houses they belong to
+It holds the names of the houses they are in.
+Then each house object holds the keys of its various data objects
+
+
+
+Example
+users.json
+  name n+x: unique id, people-name, email, houses [ {unique-id, house name} ]
+
+houses.json
+  house n+x: unique-id, house-name, members [{unique-id, people-name}] chores.key, supplies.key, etc.key
+
+supplies.json, chores.json, etc.
+
+Robert says use a join table to match users with house and houses with users
+a join table will consist of rows with single pairs
+  userID: HouseID
+  or
+  HouseID: UserID
+AA
+AB
+AC
+Ba
+Bb
+
+Map of Use
+New name is taken to sign up page
+name signs up
+name goes to sign in page and signs in
+  - At first emulate Max's one hour log in
+    - later implement refresh token
+If name is in house, go to that page, otherwise go to the pick or create a house page
+   - User either joins a Household or creates a new one.
+Once signed up name is taken to a Household page which shows the members of the Household
+
+From there they can navigate to the supplies, chores, or admin/account components
+
+
+When a new house is created there are no chores or supplies. The name must add them.
+
+
+Objects needed in Firebase:
+-- Houses - stores all the house names
+-- Users - stores all the users
+
+Supplies
+Chores
+Users
+
+
+Terms:
+
+House: a house consists of: chores and supplies
+Household: a group of users accessing the same house
+User: a member of a household
+
+
+A7 - Project Plan
+Build with authentication and limited chore & supply.
+The only C&S functions will be to create them. Display will be limited to a simple list of each together on one page.
+A8 will integrate A6 & A7
+A7 will be able to log in a name, create houses/households, create chores & supplies
+A7 will demonstrate ability to have multiple users using multiple instances of the app
+Example: Purple House and Casa Corazones will each be able to have their own 'instance'
+

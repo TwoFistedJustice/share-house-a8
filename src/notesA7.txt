@@ -1,0 +1,49 @@
+Deprecate userModule's admin info - get it from houseModule instead
+
+Need to set userinfo from housemodule - but async get admin is fucking it all up!
+
+
+For AdminHouse:
+    X need to get user and admin info into active house
+    lookin  fetch active house - inside get
+    - MODEL FROM FETCHUSER
+    maybe setActiveHouse
+    I should be getting admin info in fetchActiveHouse,
+      then userInfo can get it from actyive house members
+
+For A8
+  Full integration of Supplies and ChoreWheel
+  FeatureSet nodes are only added to a house when the first supply or chore is added
+  When the last supply or chore is deleted,
+
+
+
+MAJOR CHANGES
+  DONE - Need to show who is Admin and who is not
+  Admins need to be able to add admins
+  ** Remove members from house with double switch protection
+  When all members are removed, house goes bye bye along with all its data
+
+
+
+
+NEXT UP:
+  Adminstrate House
+      Show/change name of house
+      Delete house
+      Show Admins of House - have it show Admin next to the appropriate members
+      Show Members of House
+          - Delete member
+      Show featureSet
+
+
+
+
+** BUGS AND SOLUTIONS **
+
+
+UNRESOLVED BUGS
+
+
+BUG: User Info no longer displays anywhere
+  - set user dispatched from fetchActiveHouse

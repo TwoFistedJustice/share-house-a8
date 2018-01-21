@@ -1,0 +1,54 @@
+STYLE GUIDE
+
+Follow this:
+https://vuejs.org/v2/style-guide/
+
+Other style guides that look good:
+http://www.j-io.org/Javascript-Naming_Conventions
+http://crockford.com/javascript/code.html
+
+Variable scope prefixes
+https://msdn.microsoft.com/en-us/library/aa240858%28v=vs.60%29.aspx?f=255&MSPPError=-2147217396
+
+
+
+My Addendum
+  Vuex Modules
+    - Always end the file name with "Module"
+    - Omit 'Module' when importing into the project
+
+Namespacing
+  - When using vuex automatic namespacing, use full namespacing syntax even in local dispatch and commit
+    - Even though it isn't needed to run, it is easier to read if everything is consistent
+
+  Naming Convention inside modules:
+  Getters -
+        PascalCase
+        always begin first word with:
+        - "Get": getting anything not a boolean
+        - "Is", "Have" : getting a boolean - depends on what the boolean is for
+              - First word should be a delexical verb
+                  - https://learnenglish.britishcouncil.org/en/english-grammar/verbs/delexical-verbs-have-take-make-and-give
+
+  Mutations
+    - UPPER_CASE_NAMES
+
+
+  Actions
+    - cameCase
+    - if primarily committing a mutation, use same name as mutation but camelCase
+
+
+
+
+   Arguments
+    When passing a complex object as an argument
+        - If the object is local scope only, end its name with "Blob"
+          - example:
+                let dataBlob = {
+                  prop1: true,
+                  prop2: 'some string'
+                };
+            commit('someMutation', dataBlob);
+
+
