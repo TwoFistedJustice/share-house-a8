@@ -8,9 +8,8 @@
       <div v-if="getBelongsToHouse">
         <h2>House: {{getActiveHouse.houseName}} </h2>
         <p>houseId: {{getHouseId}}</p>
-        <!--<h2>1. DONE make each housemate a component</h2>-->
-        <!--<h2>2. DONE Admin features Should only be visible to Admins - check vs vuex state</h2>-->
-        <h2>3. should only be changeable by Admins - check vs firebase</h2>
+
+        <h2> Should only be changeable by Admins - check vs firebase</h2>
         <p>below the line is where controls go</p>
         <hr>
         <!--   SUPER ADMIN - CHANGE OR DELETE HOUSE-->
@@ -36,7 +35,8 @@
 
           </div>
         </div>
-
+        <!--MEMBER COMPONENT
+                              MEMBER COMPONENT-->
         <h2>Housemates: </h2>
 
         <app-member v-for="member in getActiveHouse.members"
@@ -159,6 +159,7 @@
         const formData = {
           houseName: this.houseName
         };
+        let thing = 'createNewHouse';
         this.$store.dispatch('house/createNewHouse', formData, gObj_hasRoot);
         this.houseName = '';
       },

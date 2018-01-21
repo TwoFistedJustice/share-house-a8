@@ -1,6 +1,23 @@
+
+BUG: header shows member status after house deletion
+    - maybe just set it from delete house...
+
+
+BUG:
+belongsToHouse getting set to true after house deletion -
+  I think it's getting data back from the house node before it is finished deleting
+
+  What went wrong:
+  was calling fetchActiveHouse which was setting bool to true no matter what
+
+  Solution: was way easier than I thought. Simply call the setter for the bool and set it to false
+            don't call fetchActiveHouse because there is none
+
+
+
 Still to do:
-  check if member is admin prior to boot
-  change name of house
+xxx  check if member is admin prior to boot
+xxx  change name of house
   show featureset
 
   integrate chore and supplies

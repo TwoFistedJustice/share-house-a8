@@ -7,9 +7,9 @@ const state = {};
 const getters = {};
 
 const mutations = {
-  SET_HOUSE_MEMBERS(state, members) {
-    state.activeHouse.members = members;
-  },
+  // SET_HOUSE_MEMBERS(state, members) {
+  //   state.activeHouse.members = members;
+  // },
 };
 
 const actions = {
