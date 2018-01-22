@@ -134,9 +134,11 @@ const actions = {
     let thing1 = 'CLEAR_AUTH_DATA';
     let thing2 = 'CLEAR_HOUSE_DATA';
     let thing3 = 'CLEAR_USER_DATA';
+    let thing4 = 'CLEAR_USER_NAME';
     commit('auth/CLEAR_AUTH_DATA', null, gObj_hasRoot);
     commit('house/CLEAR_HOUSE_DATA', null, gObj_hasRoot);
     commit('user/CLEAR_USER_DATA', null, gObj_hasRoot);
+    commit('user/CLEAR_USER_NAME', null, gObj_hasRoot);
     localStorage.clear();
     router.replace('/signin');
   },

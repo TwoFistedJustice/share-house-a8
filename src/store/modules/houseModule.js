@@ -49,7 +49,7 @@ const getters = {
 const mutations = {
 
   CLEAR_HOUSE_DATA(state) {
-    console.log('mutation CLEAR_HOUSE_DATA');
+    // console.log('mutation CLEAR_HOUSE_DATA');
     state.activeHouse.houseName = '';
     state.activeHouse.members = null;
     state.houseId = '';
@@ -155,7 +155,7 @@ const actions = {
       /* this gets fired when the last member (who must be an admin) is deleted
        * There must be only one member left to delete a house
         * */
-      // let memberCount = getters.getMemberCount;
+      // let memberCount = getters.GetMemberCount;
       let memberCount = state.activeHouse.members.length;
 
 
@@ -222,7 +222,8 @@ const actions = {
       globalAxios.get('/users/' + userId + '/house' + '.json' + '?auth=' + token)
         .then((response) => {
 
-          if (response.data.active) {
+          if (response.data.active === true) {
+            console.log('response.data.active ', typeof(response.data.active));
             houseId = response.data.houseId;
             localStorage.setItem('houseId', houseId);
             let thing1 = 'SET_BELONGS_TO_HOUSE';
@@ -313,6 +314,12 @@ const actions = {
             }
             // return 0;
             return members;
+          })
+          .then(members => {
+            /* sets admin and member count in memberModule */
+            // dispatch('memberManagement/setAdminInfo', members, gObj_hasRoot);
+            let thing4 = 'setAdmin_and_MemberCount';
+            dispatch('memberManagement/setAdmin_and_MemberCount', members, gObj_hasRoot);
           })
           .catch(err => console.log('fetchMembers for loop ', err));
 

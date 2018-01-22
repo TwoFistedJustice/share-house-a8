@@ -1,3 +1,9 @@
+/*
+* userModule controls only data related to the person using the interface
+* if something can affect any user, look in memberModule
+* */
+
+
 import authAxios from '../../axios/axios-auth.js';
 import globalAxios from 'axios';
 import router from '../../router.js';
@@ -29,7 +35,7 @@ const getters = {
     return state.userInfo;
   },
 
-  getIsAdmin(state){
+  getIsAdmin(state) {
     return state.userInfo.isAdmin;
   }
 
@@ -37,11 +43,17 @@ const getters = {
 
 const mutations = {
   CLEAR_USER_DATA(state) {
+    // console.log('CLEAR USER DATA');
+    localStorage.setItem('belongsToHouse', false);
     state.belongsToHouse = false;
-    state.userInfo.name = '';
     state.userInfo.isAdmin = false;
     state.userInfo.role = '';
   },
+
+  CLEAR_USER_NAME(state) {
+    state.userInfo.name = '';
+  },
+
   SET_BELONGS_TO_HOUSE(state, bool) {
     state.belongsToHouse = bool;
     localStorage.setItem('belongsToHouse', bool);
@@ -57,32 +69,11 @@ const mutations = {
 };
 const actions = {
 
-hasAdminPower({commit, dispatch}) {
-  /* Call DB to see if the user is an Admin
-  *   Use this whenever user wants to make a major change
-  *   like change house name, boot a member, delete the house, etc
-  * */
-
-  let userId = localStorage.getItem('userId');
-  let houseId = localStorage.getItem('houseId');
-
-  // globalAxios.get('/houses/' + userId + '' )
-  //   .then(response =>{
-  //
-  //   })
-  //   .catch(err => console.error(err));
-
-
-},
 
   addHouseToUser({commit, dispatch}, payload) {
     /*
     payload expects - same as houseBlob in instantiateHouse
-    {
-      houseId: pushId,
-      active: true
-      }
-
+    { houseId: pushId, active: true}
     * */
 
     let token = localStorage.getItem('token');
@@ -91,7 +82,6 @@ hasAdminPower({commit, dispatch}) {
       houseId: payload.houseId,
       active: true
     }
-
 
     globalAxios.patch('users/' + userId + '/house.json' + '?auth=' + token, houseBlob)
     /*creates the house node in the name's node*/
@@ -113,7 +103,7 @@ hasAdminPower({commit, dispatch}) {
     if (payload != null) {
       let thing1 = 'SET_USER_INFO';
       commit('user/SET_USER_INFO', payload, gObj_hasRoot);
-    }else {
+    } else {
 
       let userId = localStorage.getItem('userId');
       let token = localStorage.getItem('token');
@@ -121,7 +111,7 @@ hasAdminPower({commit, dispatch}) {
       globalAxios.get('users/' + userId + '.json?auth=' + token)
         .then(response => {
           let role = 'MemberDude';
-          if(!response.data.house ){
+          if (!response.data.house) {
             role = 'Seeker';
           }
 
@@ -170,8 +160,6 @@ hasAdminPower({commit, dispatch}) {
   },
 
 };
-
-
 
 
 export default {

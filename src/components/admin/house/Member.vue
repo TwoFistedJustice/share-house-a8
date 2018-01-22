@@ -71,20 +71,11 @@
     methods: {
       bootemIntheHead() {
         let thing = 'removeMember';
-        this.$store.dispatch('memberManagement/removeMember', this.memberData, gObj_hasRoot);
+        this.$store.dispatch('memberManagement/removeMember', this.member, gObj_hasRoot);
       },
 
       testFn() {
-        let isAdmin = this.isAdmin;
-        let memberId = this.member.id;
-        let userId = this.getUserId;
-
-        if(memberId === userId || isAdmin){
-          return true;
-        } else {
-          return false;
-        }
-
+        console.log('testFn in Member.vue');
 
       }
 
