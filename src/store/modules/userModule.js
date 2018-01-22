@@ -32,6 +32,7 @@ const getters = {
   getIsAdmin(state){
     return state.userInfo.isAdmin;
   }
+
 };
 
 const mutations = {
@@ -119,12 +120,17 @@ hasAdminPower({commit, dispatch}) {
 
       globalAxios.get('users/' + userId + '.json?auth=' + token)
         .then(response => {
-          // console.log('getting', response);
+          let role = 'MemberDude';
+          if(!response.data.house ){
+            role = 'Seeker';
+          }
+
+          // console.log('getting user info ', response);
           let userBlob = {
             id: response.data.id,
             isAdmin: false,
             name: response.data.name.first + ' ' + response.data.name.last,
-            role: 'Member'
+            role: role
           };
           let thing2 = 'SET_USER_INFO';
           commit('user/SET_USER_INFO', userBlob, gObj_hasRoot);

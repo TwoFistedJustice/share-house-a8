@@ -16,7 +16,7 @@ const actions = {
 
   //payload needs to get changed so it includes isAdmin: t/f
   addMember({dispatch, commit}, payload) {
-    console.log('adding member');
+    // console.log('adding member');
 
     /* ****************************
        GET the member data as an array
@@ -59,9 +59,83 @@ const actions = {
         console.error('member/addMember-get', err);
       })
   },
+  removeMember({dispatch, commit}, userData) {
 
-  removeMember({dispatch, commit, getters, rootGetters}, userData) {
-      console.log(rootGetters.getThing);
+    /* receives memberId from calling function
+    *  checks DB if member is admin
+    *  deletes them if they are not
+    * */
+    // REFACTOR
+    //check members quantity
+    //if != 1, delete,
+    // last member MUST be admin
+    // must count # of admins if admins are not more than 1 and member is admin, cannot remove
+
+
+    //if # admins is less than two, and member is admin, cannot delete
+
+    let memberId = userData.memberId;
+    let userId = localStorage.getItem('userId');
+    let token = localStorage.getItem('token');
+    let houseId = localStorage.getItem('houseId');
+
+    globalAxios.get('/houses/' + houseId + '/members.json?auth=' + token)
+      .then(resp => {
+
+        return resp.data;
+      })
+      .then(data => {
+
+        let memberArray = [];
+        let adminCount = 0;
+        let memberCount = 0;
+        let canRemove = false;
+
+        for (let memberId in data) {
+          /* memberId is just the node id*/
+          let userId = memberId;
+          /* must use [] bracket notation for this to work*/
+          memberArray.push(data[userId]);
+        }
+        console.log('mem ', memberArray);
+        /* set membercount to the array length */
+        memberCount = memberArray.length;
+
+        /* count the # of admins */
+        for (let i = 0; i < memberCount; i++) {
+          if (memberArray[i].isAdmin === true) {
+            adminCount++;
+          }
+          /* if member is not an admin, it's okay to remove them */
+          if (memberArray[i].id === memberId && memberArray[i].isAdmin === false) {
+            canRemove = true;
+          }
+        }
+        /* if admins & members both count at least two, removal is okay */
+        if (adminCount >= 2 && memberCount >= 2) {
+          canRemove = true;
+        }
+
+        if (canRemove) {
+          globalAxios.delete('/houses/' + houseId + '/members/' + memberId + '.json?auth=' + token)
+            .then(resp => {
+              return resp;
+            })
+            .then(function () {
+              let thing1 = 'removeHouseFromMember';
+              let thing2 = 'fetchActiveHouse';
+              dispatch('memberManagement/removeHouseFromMember', memberId, gObj_hasRoot);
+              dispatch('house/fetchActiveHouse', null, gObj_hasRoot);
+            })
+            .catch(err => console.error(err));
+        }
+
+
+      })
+      .catch(err => console.error(err));
+  },
+
+  removeMemberOLD({dispatch, commit, getters, rootGetters}, userData) {
     /* receives memberId from calling function
     *  checks DB if member is admin
     *  deletes them if they are not
@@ -79,7 +153,7 @@ const actions = {
         if (data.isAdmin === false) {
           globalAxios.delete('/houses/' + houseId + '/members/' + memberId + '.json?auth=' + token)
             .then(resp => {
-              console.log('delete response', resp);
+              // console.log('delete response', resp);
               return resp;
             })
             .then(function () {
@@ -101,7 +175,7 @@ const actions = {
     * deletes the house node in that user's DB entry*/
     let token = localStorage.getItem('token');
     globalAxios.delete('/users/' + userId + '/house.json?auth=' + token)
-      .then(response => console.log('delete', response))
+    // .then(response => console.log('delete', response))
       .catch(err => console.error(err));
   }
 };

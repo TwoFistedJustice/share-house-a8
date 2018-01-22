@@ -45,14 +45,7 @@ const getters = {
     return state.activeHouse.members;
   },
 
-  // getMemberCount(state, getters, rootState, rootGetters) {
-  //
-  //   return state.activeHouse.members.length;
-  //
-  // }
-
-
-};
+  };
 const mutations = {
 
   CLEAR_HOUSE_DATA(state) {
@@ -63,7 +56,7 @@ const mutations = {
   },
 
   SET_HOUSE_ID(state, houseId) {
-      console.log('set house id');
+      // console.log('set house id');
     state.houseId = houseId;
   },
 
@@ -282,8 +275,9 @@ const actions = {
       let memberArray = [];
 
       for (let memberId in data.members) {
-
+            /* memberId is just the node id*/
         let userId = memberId;
+        /* must use [] bracket notation for this to work*/
         memberArray.push(data.members[userId]);
       }
       // console.log('memberArray', memberArray);
