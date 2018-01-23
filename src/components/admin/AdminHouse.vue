@@ -20,16 +20,17 @@
                    id="super-powers"
                    v-model="superPowers"
                    value="true">
-            <label for="super-powers">Power of SUPER-ADMIN</label>
+            <label for="super-powers">Change House Details</label>
           </div>
 
           <div v-if="superPowers">
-            <h3>Destroy everything!!! Mwahahaha!!!</h3>
-            <!--<label for="changeHouseName">Change House Name:</label>-->
+
+            <h3>Change the house name</h3>
             <button class="btn btn-primary" @click="changeHouseName">Change House Name</button>
             <input type="text" name="changeHouseName" id="changeHouseName" v-model="newHouseName" placeholder="New house-name">
 
             <br><br>
+            <h3>Destroy everything!!! Mwahahaha!!!</h3>
             <button class="btn btn-danger"
                     @click="deleteHouse">Burn House to Ground</button>
 
@@ -174,7 +175,7 @@
         // console.clear();
         // console.log('***********join house button not active yet', this.houseId);
         let thing = 'addMember';
-        this.$store.dispatch('memberManagement/addMember', formData, gObj_hasRoot);
+        this.$store.dispatch('membership/addMember', formData, gObj_hasRoot);
 
         this.houseId = '';
 

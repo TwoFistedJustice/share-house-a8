@@ -64,7 +64,7 @@ const actions = {
         } else {
           let blob = {id: userId, isAdmin: false};
           /* add the new member */
-          globalAxios.patch('houses/' + houseId + '/members/' + userId + '.json' + '?auth=' + token, blob)
+          globalAxios.patch('houses/' + houseId + '/members/' + userId + '.json?auth=' + token, blob)
             .then(
               /* after adding the user to the house, add the house to the user */
               function () {
@@ -79,6 +79,47 @@ const actions = {
       .catch(err => {
         console.error('member/addMember-get', err);
       })
+  },
+
+  adminPowerGive({dispatch, commit}, memberData) {
+    console.log('******** admin powwwerrr!');
+    /* gives admin power to a member
+    *   later maybe let members vote to give it to someone
+    * */
+    let memberId = memberData.id;
+    let houseId = localStorage.getItem(('houseId'));
+    let token = localStorage.getItem('token');
+
+    let isReallySure = confirm('Are you sure you want to give ' + memberData.name + ' Admin power?');
+    if (isReallySure) {
+
+      globalAxios.put('/houses/' + houseId + '/members/' + memberId + '/isAdmin.json?auth=' + token, true)
+      .then(resp => {
+        dispatch('house/fetchActiveHouse', null, gObj_hasRoot);
+      })
+        .catch(err => console.error('membership/adminPowerGive', err));
+    }
+  },
+
+  adminPowerTake({dispatch, commit}, memberData) {
+    /* takes admin power from a member
+    *  can only be done by that member
+    *  later maybe let members vote to take it away
+    * */
+    let memberId = memberData.id;
+    let houseId = localStorage.getItem(('houseId'));
+    let token = localStorage.getItem('token');
+
+    let isReallySure = confirm('Are you sure you want to give up Admin power?');
+    if (isReallySure) {
+
+      globalAxios.put('/houses/' + houseId + '/members/' + memberId + '/isAdmin.json?auth=' + token, false)
+        .then(resp => {
+          dispatch('house/fetchActiveHouse', null, gObj_hasRoot);
+        })
+        .catch(err => console.error('membership/adminPowerGive', err));
+
+    }
   },
 
   removeMember({dispatch, commit, getters}, memberData) {
@@ -102,67 +143,41 @@ const actions = {
 
       canRemove = true;
     }
-   /* Remove the member if canRemove is true */
+    /* Remove the member if canLeave is true */
     if (canRemove) {
-      globalAxios.delete('/houses/' + houseId + '/members/' + memberId + '.json?auth=' + token)
-        .then(resp => {
-          return resp;
-        })
-        .then(function () {
-          let thing1 = 'removeHouseFromMember';
-          let thing2 = 'fetchActiveHouse';
-          let thing3 = 'clearUserData';
-          let thing4 = 'CLEAR_HOUSE_DATA';
 
-          dispatch('memberManagement/removeHouseFromMember', memberId, gObj_hasRoot);
+      let isReallySure = confirm('Are you sure you want to remove ' + memberData.name + '?');
+      if (isReallySure) {
 
-          /* if user is removing someone else, refresh the active house */
-          if(memberId != userId) {
-            dispatch('house/fetchActiveHouse', null, gObj_hasRoot);
-          }else {
-            /* if member is removing self, clear house and user data*/
-            commit('user/CLEAR_USER_DATA', null, gObj_hasRoot);
-            commit('house/CLEAR_HOUSE_DATA', null, gObj_hasRoot);
-          }
-        })
-        .catch(err => console.error(err));
+        globalAxios.delete('/houses/' + houseId + '/members/' + memberId + '.json?auth=' + token)
+          .then(resp => {
+            return resp;
+          })
+          .then(function () {
+            let thing1 = 'removeHouseFromMember';
+            let thing2 = 'fetchActiveHouse';
+            let thing3 = 'clearUserData';
+            let thing4 = 'CLEAR_HOUSE_DATA';
+
+            dispatch('membership/removeHouseFromMember', memberId, gObj_hasRoot);
+
+            /* if user is removing someone else, refresh the active house */
+            if (memberId != userId) {
+              dispatch('house/fetchActiveHouse', null, gObj_hasRoot);
+            } else {
+              /* if member is removing self, clear house and user data*/
+              commit('user/CLEAR_USER_DATA', null, gObj_hasRoot);
+              commit('house/CLEAR_HOUSE_DATA', null, gObj_hasRoot);
+            }
+          })
+          .catch(err => console.error(err));
+      }
+      else {
+        return;
+      }
     }
   },
 
-  removeMemberOLD({dispatch, commit, getters, rootGetters}, userData) {
-    /* receives memberId from calling function
-    *  checks DB if member is admin
-    *  deletes them if they are not
-    * */
-    let memberId = userData.userId;
-    let token = localStorage.getItem('token');
-    let houseId = localStorage.getItem('houseId');
-
-    globalAxios.get('/houses/' + houseId + '/members/' + memberId + '.json?auth=' + token)
-      .then(resp => {
-        console.log(resp);
-        return resp.data;
-      })
-      .then(data => {
-        if (data.isAdmin === false) {
-          globalAxios.delete('/houses/' + houseId + '/members/' + memberId + '.json?auth=' + token)
-            .then(resp => {
-              // console.log('delete response', resp);
-              return resp;
-            })
-            .then(function () {
-              let thing1 = 'removeHouseFromMember';
-              let thing2 = 'fetchActiveHouse';
-              dispatch('memberManagement/removeHouseFromMember', memberId, gObj_hasRoot);
-              dispatch('house/fetchActiveHouse', null, gObj_hasRoot);
-            })
-            .catch(err => console.error(err));
-        } else {
-          console.log('Admins must remove themselves');
-        }
-      })
-      .catch(err => console.error(err));
-  },
 
   removeHouseFromMember({commit, dispatch}, userId) {
     /* receives userId from calling function

@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 import auth from './modules/authModule.js';
 import user from './modules/userModule.js';
 import house from './modules/houseModule.js';
-import memberManagement from './modules/memberModule.js';
+import membership from './modules/memberModule.js';
 Vue.use(Vuex);
 
 
@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
   modules: {
     auth,
     house,
-    memberManagement,
+    membership,
     user
   }
 

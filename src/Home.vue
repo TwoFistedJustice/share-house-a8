@@ -6,6 +6,17 @@
       <H2>Alpha Version 8 - IN PROGRESS</H2>
       <h3>Features and Breakdown:</h3>
             <ul>
+              <li><h2>Features </h2></li>
+              <li>automatic namespacing</li>
+              <li>changed members manipulation from array to normal object</li>
+              <li>admins can remove anyone</li>
+              <li>non-admins can only remove themselves</li>
+              <li>admin can change house name</li>
+              <li>admin can delete house</li>
+              <li>to delete last member, must delete house</li>
+
+            </ul>
+            <ul>
               <li><h2>PLAN FOR A8</h2></li>
               <li>Copy A7 straight over as is and begin changes</li>
               <li>DONE - Institute automatic namespacing</li>

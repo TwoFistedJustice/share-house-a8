@@ -6,7 +6,7 @@ import Vuex from 'vuex';
 import auth from './modules/authModule.js';
 import user from './modules/userModule.js';
 import house from './modules/houseModule.js';
-import memberManagement from './modules/memberModule.js';
+import membership from './modules/memberModule.js';
 
 // import * as actions from './actions.js';
 
@@ -30,7 +30,7 @@ Vue.use(Vuex);
     // suppliesModule,
     auth,
     house,
-    memberManagement,
+    membership,
     user
   }
 

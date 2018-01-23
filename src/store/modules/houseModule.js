@@ -181,7 +181,7 @@ const actions = {
             .then(resp => {
               if (resp.status === 200) {
                 console.log(resp);
-                dispatch('memberManagement/removeHouseFromMember', userId, gObj_hasRoot);
+                dispatch('membership/removeHouseFromMember', userId, gObj_hasRoot);
                 dispatch('clearHouseData');
                 commit('user/SET_BELONGS_TO_HOUSE', false, gObj_hasRoot);
 
@@ -317,9 +317,9 @@ const actions = {
           })
           .then(members => {
             /* sets admin and member count in memberModule */
-            // dispatch('memberManagement/setAdminInfo', members, gObj_hasRoot);
+            // dispatch('membership/setAdminInfo', members, gObj_hasRoot);
             let thing4 = 'setAdmin_and_MemberCount';
-            dispatch('memberManagement/setAdmin_and_MemberCount', members, gObj_hasRoot);
+            dispatch('membership/setAdmin_and_MemberCount', members, gObj_hasRoot);
           })
           .catch(err => console.log('fetchMembers for loop ', err));
 

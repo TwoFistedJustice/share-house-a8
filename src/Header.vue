@@ -137,7 +137,7 @@
       }),
       TestFn(){
         console.log('test');
-        this.$store.dispatch('memberManagement/testFn', null, gObj_hasRoot);
+        this.$store.dispatch('membership/testFn', null, gObj_hasRoot);
       },
       onLogout(){
         this.$store.dispatch('auth/logout', null, gObj_hasRoot);

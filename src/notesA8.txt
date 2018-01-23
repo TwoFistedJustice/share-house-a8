@@ -1,8 +1,20 @@
 -L3Pm5sRnpS-ZwA3UfaX
 
-Need to prevent delete checkbox from showing up on an admin if there is only one admin
 
 
+Add:
+
+
+
+
+
+
+
+
+
+
+DONE prevent delete checkbox from showing up on an admin if there is only one admin
+DONE admin can give a user Admin power
 DONE Need to refactor removeMember so that even an admin can be removed
 BUT if there is only one member left, then removal is not possible
 they must delete the house to remove the last member.

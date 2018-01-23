@@ -11,12 +11,12 @@
       <!--<h3> {{getUserMember.role}} of {{getActiveHouse.houseName}}</h3>-->
       <h2>{{getUserInfo.name}} </h2>
       <h3> {{getUserInfo.role}} of {{getActiveHouse.houseName}}</h3>
-      <h1> for 1/1/18 - finish leave house function</h1>
-      <h2>check if admin</h2>
-      <h2>if (admin && members) must remove members first</h2>
-      <h2>make a kick member out function- doesn't work on admins</h2>
-      <h2>should member management be another module?</h2>
-      <h2>make leave house a helper that takes uid as arg</h2>
+      <!--<h1> for 1/1/18 - finish leave house function</h1>-->
+      <!--<h2>check if admin</h2>-->
+      <!--<h2>if (admin && members) must remove members first</h2>-->
+      <!--<h2>make a kick member out function- doesn't work on admins</h2>-->
+      <!--<h2>should member management be another module?</h2>-->
+      <!--<h2>make leave house a helper that takes uid as arg</h2>-->
 
 
     </div>

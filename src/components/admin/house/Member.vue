@@ -7,20 +7,44 @@
          v-bind:class="{'panel-danger': canDelete, 'panel-success': !canDelete}">
       <div class="flex panel-heading">
         <h2>{{member.name}} {{member.role}}</h2>
+        <!--<button @click="testFn">Test a Function</button>-->
 
-        <div class="form-group" v-if="canRemove">
+        <div class="form-group" v-if="canLeave">
           <input type="checkbox"
-                 id="Remove"
+                 id="Leave"
                  v-model="canDelete"
                  value="true">
-          <label for="Remove">Remove member from house</label>
+          <label for="Leave">Leave house</label>
           <br>
           <button
             v-if="canDelete"
-            @click="bootemIntheHead()">Removinator
+            @click="bootToRear()">Leave
           </button>
         </div>
-        <!--<button @click="testFn">Test a Function</button>-->
+        <!--form break -->
+        <div class="form-group" v-if="showAdminControls">
+          <input type="checkbox"
+                 id="showControls"
+                 v-model="canSeeAdminControls"
+                 value="true">
+          <label for="showControls">Show Admin Controls</label>
+        </div>
+        <!--form break -->
+        <div class="form-group" v-if="canSeeAdminControls">
+          <button
+                @click="bootToRear()">Give Boot
+          </button>
+          <button
+            v-if="!memberData.memberIsAdmin"
+            @click="adminPowerGive">Make Admin
+          </button>
+          <button
+            v-if="isSelf"
+            @click="adminPowerTake">Give Up Admin Power
+          </button>
+        </div>
+
+
 
       </div>
     </div>
@@ -42,9 +66,11 @@
       return {
         setClass: true,
         canDelete: false,
+        canSeeAdminControls: false,
         memberData: {
-          memberId: this.member.id
-        }
+          memberId: this.member.id,
+          memberIsAdmin: this.member.isAdmin
+        },
 
       };
 
@@ -52,26 +78,85 @@
     computed: {
       ...mapGetters({
         isAdmin: 'user/getIsAdmin',
+        GetAdminCount: 'membership/GetAdminCount',
         getUserId: 'auth/getUserId'
       }),
 
-      canRemove() {
-        //allows checkbox is user is admin or box on user's own component instance
+      canLeave() {
+        /*
+        * If the user is and admin, but not the only admin
+        * or the user is the member and not an admin
+        * they can see the leave house button
+        * The last admin standing must delete the house to leave
+        * */
         let isAdmin = this.isAdmin;
         let memberId = this.member.id;
         let userId = this.getUserId;
 
-        if(memberId === userId || isAdmin){
+
+        if (memberId === userId && !isAdmin) {
+          return true;
+        // } else if (memberId === userId && isAdmin && !this.isOnlyAdmin) {
+        //   return true;
+        } else {
+          return false;
+        }
+      },
+
+      isOnlyAdmin() {
+        /* checks to see if the user is the only admin */
+        if (this.isAdmin && this.GetAdminCount > 1) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+
+      isSelf(){
+        let memberId = this.member.id;
+        let userId = this.getUserId;
+
+        let condition = (memberId === userId && !this.isOnlyAdmin )? true : false;
+        return condition;
+
+      },
+
+      showAdminControls(){
+        /* user shouldn't see admin controls on their own component
+        *  non-admins should never see admin controls ever
+        *
+        *  maybe have another set of control for self-admin - like give up admin power
+        * */
+        let isAdmin = this.isAdmin;
+        let memberId = this.member.id;
+        let userId = this.getUserId;
+
+        // if(memberId === userId){
+        //   return false
+        // } else
+          if (isAdmin && !this.memberData.isAdmin) {
           return true;
         } else {
           return false;
         }
       }
+
+
     },
     methods: {
-      bootemIntheHead() {
+      bootToRear() {
         let thing = 'removeMember';
-        this.$store.dispatch('memberManagement/removeMember', this.member, gObj_hasRoot);
+        this.$store.dispatch('membership/removeMember', this.member, gObj_hasRoot);
+      },
+
+      adminPowerGive(){
+        let thing = 'adminPowerGive';
+        this.$store.dispatch('membership/adminPowerGive', this.member, gObj_hasRoot);
+      },
+
+      adminPowerTake(){
+        let thing = 'adminPowerTake';
+        this.$store.dispatch('membership/adminPowerTake', this.member, gObj_hasRoot);
       },
 
       testFn() {
