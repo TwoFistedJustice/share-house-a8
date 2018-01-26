@@ -28,14 +28,14 @@
 
   import {mapActions} from 'vuex';
   //     import * as types from '../../store/types.js';
-  import {flipItemBool} from '../../store/types.js';
+  // import {flipItemBool} from '../../store/types.js';
 
 
   export default {
     props: ['supply'],
     methods: {
       ...mapActions({
-        changeItemBoolStatus: flipItemBool
+        changeItemBoolStatus: 'supply/flipItemBool'
       }),
     }
 

@@ -131,11 +131,9 @@ const mutations = {
     let token = localStorage.getItem('token');
       globalAxios.get('houses/' + houseId + '/supplies.json?auth=' + token)
       .then(response => {
-        console.log('FETCH_SUPPLY', response);
         return response.data;
       })
       .then(data => {
-        console.log('2nd fetch data', data);
         //axios converts to array automagically! :-)
         //must use slice or it makes reference copies
         state.supplies = data.slice(0, data.length);
@@ -202,6 +200,7 @@ const actions = {
 
   flipItemBool ({commit}, payload) {
     //expects a supply object {item:, have: }
+    console.log('flipItemBool', payload);
     commit('FLIP_ITEM_BOOL', payload);
     commit('SET_CHANGED', 'flipItemBool');
   },

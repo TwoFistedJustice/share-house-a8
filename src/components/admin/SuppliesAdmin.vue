@@ -43,7 +43,6 @@
 
   import {mapGetters} from 'vuex';
   import {mapActions} from 'vuex';
-  import * as types from '../../store/types.js';
   import appAdminItem from './SupplyItemAdmin.vue';
 
 
@@ -56,7 +55,7 @@
     },
     computed: {
       ...mapGetters({
-        getSupplies: 'supply/GetSupplies  '
+        getSupplies: 'supply/GetSupplies'
       }),
     }, //END COMPUTED
 

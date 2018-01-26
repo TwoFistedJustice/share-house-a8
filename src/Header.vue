@@ -90,6 +90,17 @@
                              active-class=""
                              class="list-group-item" exact><a>TEST </a></router-link>
 
+                <router-link to="shoppingList"
+                             tag="li"
+                             active-class=""
+                             class="list-group-item" exact><a>shoppingList </a></router-link>
+
+
+                <router-link to="suppliesInventory"
+                             tag="li"
+                             active-class=""
+                             class="list-group-item" exact><a>suppliesInventory</a></router-link>
+
 
               </ul>
             </li> <!-- END DROP DOWN -->

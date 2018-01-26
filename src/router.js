@@ -18,11 +18,8 @@ import TEST from './components/TEST.vue';
 // import Messenger from './components/Messenger.vue';
 // import GuestBoard from './components/GuestBoard.vue';
 // import Profiles from './components/Profiles.vue';
-// import ShoppingList from './components/supply/ShoppingList.vue';
-// import SuppliesInventory from './components/supply/SuppliesInventory.vue';
-
-
-
+import ShoppingList from './components/supplies/ShoppingList.vue';
+import SuppliesInventory from './components/supplies/SuppliesInventory.vue';
 
 
 //**Administration **/
@@ -55,18 +52,8 @@ const routes = [
   {path: '/TEST', component: TEST, name: 'TEST'},
 
 
-
-  {path: '/signup', component: SignUp, name: 'signup',
-    //if logged in go straight to dashboard
-    beforeEnter(to, from, next) {
-      if (store.state.auth.idToken) {
-        next('/dashboard');
-      } else {
-        next();
-      }
-    }},
-
-  {path: '/signin', component: SignIn, name: 'signin',
+  {
+    path: '/signup', component: SignUp, name: 'signup',
     //if logged in go straight to dashboard
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
@@ -77,11 +64,24 @@ const routes = [
     }
   },
 
-  {path: '/dashboard', component: Dashboard, name: 'dashboard',
+  {
+    path: '/signin', component: SignIn, name: 'signin',
+    //if logged in go straight to dashboard
+    beforeEnter(to, from, next) {
+      if (store.state.auth.idToken) {
+        next('/dashboard');
+      } else {
+        next();
+      }
+    }
+  },
+
+  {
+    path: '/dashboard', component: Dashboard, name: 'dashboard',
     //if NOT logged in go straight to sign-in
     beforeEnter(to, from, next) {
-        if (store.state.auth.idToken) {
-          next('/adminSupplies');
+      if (store.state.auth.idToken) {
+        next('/adminSupplies');
 
         next();
       } else {
@@ -90,7 +90,8 @@ const routes = [
     }// end method
   },
 
-  {path: '/adminHouse', component: AdminHouse, name: 'adminHouse',
+  {
+    path: '/adminHouse', component: AdminHouse, name: 'adminHouse',
     //if NOT logged in go straight to sign-in
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
@@ -101,7 +102,32 @@ const routes = [
     }// end method
   },
 
-  {path: '/adminSupplies', component: AdminSupplies, name: 'adminSupplies',
+  {
+    path: '/adminSupplies', component: AdminSupplies, name: 'adminSupplies',
+    //if NOT logged in go straight to sign-in
+    beforeEnter(to, from, next) {
+      if (store.state.auth.idToken) {
+        next();
+      } else {
+        next('/signin');
+      }
+    }// end method
+  },
+
+  /* FEATURE ROUTES*/
+  {
+    path: '/shoppingList', component: ShoppingList, name: 'shoppingList',
+    //if NOT logged in go straight to sign-in
+    beforeEnter(to, from, next) {
+      if (store.state.auth.idToken) {
+        next();
+      } else {
+        next('/signin');
+      }
+    }// end method
+  },
+
+  {path: '/suppliesInventory', component: SuppliesInventory, name: 'suppliesInventory',
     //if NOT logged in go straight to sign-in
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {

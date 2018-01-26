@@ -3,7 +3,7 @@
   <div>
 
     <div class="row">
-      <h1>Inventory</h1>
+      <h1>SuppliesInventory.vue</h1>
     </div>
     <div class="row">
 

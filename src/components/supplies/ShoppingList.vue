@@ -2,7 +2,7 @@
 
   <div>
     <div class="row">
-      <h1>ShoppingList.vue alpha 6 MVP</h1>
+      <h1>ShoppingList.vue</h1>
 
       <div class="form-group">
       </div>
@@ -32,8 +32,6 @@
 
   import {mapGetters} from 'vuex';
   import {mapActions} from 'vuex';
-  import * as types from '../../store/types.js';
-
   import appShoppingItem from './ShoppingItem.vue';
 
 
@@ -41,7 +39,7 @@
 
     computed: {
       ...mapGetters({
-        getSupplies: types.GetSupplies,
+        getSupplies: 'supply/GetSupplies',
       })
     },//end computed
     components: {
@@ -49,13 +47,12 @@
     },
     methods: {
       ...mapActions({
-        confirmChanges: types.confirmChange,
-        saveSupplies: types.saveSupply
+        confirmChanges: 'supply/confirmChange',
+        saveSupplies: 'supply/saveSupply'
 
       })
     },
     beforeDestroy() {
-//      this.confirmChanges();
       this.saveSupplies();
     },
 
