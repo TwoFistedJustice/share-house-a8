@@ -27,7 +27,6 @@ const state = {
 const getters = {
   getBelongsToHouse(state) {
     /* used to set v-if in components */
-
     return state.belongsToHouse;
   },
 
@@ -43,7 +42,6 @@ const getters = {
 
 const mutations = {
   CLEAR_USER_DATA(state) {
-    // console.log('CLEAR USER DATA');
     localStorage.setItem('belongsToHouse', false);
     state.belongsToHouse = false;
     state.userInfo.isAdmin = false;
@@ -61,7 +59,6 @@ const mutations = {
 
   SET_USER_INFO(state, userBlob) {
     /* Set user's name, admin status, and role */
-    //trying to use getters in this caused A LOT of headache
     state.userInfo.name = userBlob.name;
     state.userInfo.isAdmin = userBlob.isAdmin;
     state.userInfo.role = userBlob.role;
@@ -83,7 +80,7 @@ const actions = {
       active: true
     }
 
-    globalAxios.patch('users/' + userId + '/house.json' + '?auth=' + token, houseBlob)
+    globalAxios.patch('users/' + userId + '/house.json?auth=' + token, houseBlob)
     /*creates the house node in the name's node*/
       .then(response => {
         let thing = 'fetchActiveHouse';
@@ -152,7 +149,7 @@ const actions = {
     /* stores firebase node-key of new name */
 
     /* 'patch' allows userID as node name :-) */
-    globalAxios.patch('users/' + userId + '.json/' + '?auth=' + token, userBlob)
+    globalAxios.patch('users/' + userId + '.json/?auth=' + token, userBlob)
       .then(response => {
         console.log("userModule.storeUser", response)
       })

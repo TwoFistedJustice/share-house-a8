@@ -16,12 +16,12 @@ const state = {
 
 const getters = {
 
-  isAuthenticated(state) {
+  isAuthenticated (state) {
     /*used in Header.vue  to display or not different components*/
     return state.idToken != null;
   },
 
-  getUserId(state){
+  getUserId (state){
     return state.userId;
   }
 };

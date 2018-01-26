@@ -21,7 +21,7 @@
               <li>Copy A7 straight over as is and begin changes</li>
               <li>DONE - Institute automatic namespacing</li>
               <li>Basic member and account management</li>
-              <li> Refactor Chores and supplies per A7 db structure</li>
+              <li> Refactor Chores and supply per A7 db structure</li>
               <li>build member components</li>
               <ol>
                 <li>Join or leave house</li>
@@ -36,7 +36,7 @@
         <h3>Alpha 7</h3>
       <p>Implements authentication and multiple instances</p>
       <ul>
-        <li>Contains no chore wheel or supplies functionality</li>
+        <li>Contains no chore wheel or supply functionality</li>
         <li>User authentication</li>
         <li>house creation</li>
         <li>user can become member of house</li>
@@ -56,7 +56,7 @@
         <h4>Alpha 6</h4>
         <ul>
             <li> Loads data from firebase on startup</li>
-            <li>Automatically saves supplies to database when you navigate away</li>
+            <li>Automatically saves supply to database when you navigate away</li>
             <li>Refactored directory structure</li>
             <li>Changed lists to component arrays</li>
             <li>Added Event Planning component</li>

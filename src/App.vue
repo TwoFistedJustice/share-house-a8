@@ -1,49 +1,44 @@
 <template>
-<div class="container">
+  <div class="container ">
 
-  <div class="row">
-    <div class="md-12">
-    <app-header></app-header>
-    <router-view></router-view>
+    <div class="row">
+      <div class="md-12">
+        <app-header></app-header>
+        <router-view></router-view>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 
 <script>
-import Header from './Header.vue';
-import {gObj_hasRoot} from "./config";
-//import {mapActions} from 'vuex';
+  import Header from './Header.vue';
+  import {gObj_hasRoot} from "./config";
+  //import {mapActions} from 'vuex';
 
 
+  export default {
+    data: function () {
+      return {}
 
-export default {
-  data: function(){
-    return {
+    },
+    components: {
 
-    }
+      appHeader: Header
 
-  },
-  components: {
-
-    appHeader: Header
-
-  },
-    created(){
+    },
+    created() {
+      //       console.log('*****************created*******************');
       let thing1 = 'loginOmatic';
-        // this.$store.dispatch('initChores');
-        // this.$store.dispatch(types.SUPPLY_FETCH_SUPPLY);
-//      this.$store.dispatch('initData');
-//       console.log('*****************created*******************');
-
+      let thing2 = 'fetchSupply';
+      // this.$store.dispatch('initChores');
+      //      this.$store.dispatch('initData');
+      this.$store.dispatch('supply/fetchSupply', null, gObj_hasRoot);
       this.$store.dispatch('auth/loginOmatic', null, gObj_hasRoot);
-      // this.$store.dispatch('authInit');
-
 
     },
 
 
-}
+  }
 </script>
 

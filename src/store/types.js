@@ -17,8 +17,8 @@ export const GET_ROTATION = 'chores/GET_ROTATION';
 
 //****** supply Getters ******************//
 
-export const GET_DISPLAY_HAVE_SWITCH = 'supply/GET_DISPLAY_HAVE_SWITCH';
-export const GET_SUPPLIES = 'supply/GET_SUPPLIES';
+export const GetDisplayHaveSwitch = 'supply/GetDisplayHaveSwitch';
+export const GetSupplies = 'supply/GetSupplies';
 // export const GET_SUPPLY_INIT_COPY = 'supply/SUPPLY_GET_INIT_COPY';
 
 
@@ -40,7 +40,7 @@ export const MUTATE_TOGGLE_HAVE_STATUS = 'supply/MUTATE_TOGGLE_HAVE_SWITCH';
 export const MUTATE_SUPPLY_CONFIRM_CHANGE = 'supply/MUTATE_SUPPLY_CONFIRM_CHANGE';
 
 //there is no specific action associated with MUTATE_SET_CHANGED
-//it is committed whenever the supplies object is changed from its initial state
+//it is committed whenever the supply object is changed from its initial state
 export const MUTATE_SET_CHANGED = 'supply/MUTATE_SET_CHANGED';
 
 //****** chore Mutations******************//
@@ -72,20 +72,20 @@ export const CHORE_SORT_NAMES = 'chores/CHORE_SORT_NAMES';
 
 
 //****** supply Actions******************//
-export const SUPPLY_ADD_SUPPLY = 'supply/SUPPLY_ADD_SUPPLY';
-export const SUPPLY_FLIP_ITEM_BOOL = 'supply/SUPPLY_FLIP_ITEM_BOOL';
-export const SUPPLY_DELETE_ITEM = 'supply/SUPPLY_DELETE_ITEM';
-export const SUPPLY_SET_DISPLAY_HAVE_SWITCH = 'supply/SUPPLY_SET_DISPLAY_HAVE_SWITCH';
-export const SUPPLY_SWITCH_ALL_HAVE_STATUS = 'supply/SUPPLY_SWITCH_ALL_HAVE_STATUS';
-export const SUPPLY_TOGGLE_HAVE_STATUS = 'supply/SUPPLY_TOGGLE_HAVE_SWITCH';
-export const SUPPLY_CONFIRM_CHANGE = 'supply/SUPPLY_CONFIRM_CHANGE';
+export const AddSupply = 'supply/AddSupply';
+export const flipItemBool = 'supply/flipItemBool';
+export const deleteItem = 'supply/deleteItem';
+export const setDisplayHaveSwitch = 'supply/setDisplayHaveSwitch';
+export const switchAllHaveStatus = 'supply/switchAllHaveStatus';
+export const toggleHaveStatus = 'supply/SUPPLY_TOGGLE_HAVE_SWITCH';
+export const confirmChange = 'supply/confirmChange';
 
 
 //****** supply Database Actions******************//
 
 
-export const SUPPLY_FETCH_SUPPLY = 'firebase/SUPPLY_FETCH_SUPPLY';
-export const SUPPLY_SAVE_SUPPLY = 'firebase/SUPPLY_SAVE_SUPPLY';
+export const fetchSupply = 'firebase/fetchSupply';
+export const saveSupply = 'firebase/saveSupply';
 
 //not necessary bc we already have a getter for this
 // export const SUPPLY_FB_INIT_SUPPLY = 'firebase/SUPPLY_FB_INIT_SUPPLY';

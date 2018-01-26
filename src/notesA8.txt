@@ -44,7 +44,7 @@ xxx  check if member is admin prior to boot
 xxx  change name of house
   show featureset
 
-  integrate chore and supplies
+  integrate chore and supply
 
 
 DONE to Refactor away from storing a members array in firebase to using a pure object:

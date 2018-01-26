@@ -31,7 +31,7 @@
                  aria-expanded="false">Admin <span class="caret"></span></a>
               <ul class="dropdown-menu">
 
-                <li >
+                <li>
                   <button v-if="isAuthenticated" @click="onLogout" class="btn btn-warning">Logout</button>
                 </li>
                 <router-link to="/"
@@ -59,18 +59,23 @@
                              to="adminHouse"
                              tag="li"
                              active-class=""
-                             class="list-group-item" exact><a>Adminstrate House</a></router-link>
+                             class="list-group-item" exact><a>House</a></router-link>
 
+                <router-link v-if="isAuthenticated"
+                             to="adminSupplies"
+                             tag="li"
+                             active-class=""
+                             class="list-group-item" exact><a>Supplies</a></router-link>
 
 
               </ul>
             </li>
 
-            <li  v-if="isAuthenticated"
-                 @mouseenter="isDropDownOpen =!isDropDownOpen"
-                 @mouseleave="isDropDownOpen =!isDropDownOpen"
-                 class="dropdown-toggle"
-                 :class="{open: isDropDownOpen}">
+            <li v-if="isAuthenticated"
+                @mouseenter="isDropDownOpen =!isDropDownOpen"
+                @mouseleave="isDropDownOpen =!isDropDownOpen"
+                class="dropdown-toggle"
+                :class="{open: isDropDownOpen}">
               <a href="#"
                  class="dropdown-toggle"
                  data-toggle="dropdown"
@@ -84,8 +89,6 @@
                              tag="li"
                              active-class=""
                              class="list-group-item" exact><a>TEST </a></router-link>
-
-
 
 
               </ul>
@@ -132,14 +135,14 @@
     methods: {
 
       ...mapActions({
-        // saveSupplies: types.SUPPLY_SAVE_SUPPLY,
-        // fetchSupplies: types.SUPPLY_FETCH_SUPPLY
+        // saveSupplies: types.saveSupply,
+        // fetchSupplies: types.fetchSupply
       }),
-      TestFn(){
+      TestFn() {
         console.log('test');
         this.$store.dispatch('membership/testFn', null, gObj_hasRoot);
       },
-      onLogout(){
+      onLogout() {
         this.$store.dispatch('auth/logout', null, gObj_hasRoot);
       }
     }

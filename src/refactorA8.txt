@@ -215,7 +215,7 @@ XX Create the following features:
 Database/Auth Structure
 
 Every time a house is created it adds a child with it's own house-UID as key to each stuff-node
-  - example: supplies and chores each get a node with the house-ID as key
+  - example: supply and chores each get a node with the house-ID as key
 
 Each name object holds the UID, PID, and a list of the houses they belong to
 It holds the names of the houses they are in.
@@ -228,9 +228,9 @@ users.json
   name n+x: unique id, people-name, email, houses [ {unique-id, house name} ]
 
 houses.json
-  house n+x: unique-id, house-name, members [{unique-id, people-name}] chores.key, supplies.key, etc.key
+  house n+x: unique-id, house-name, members [{unique-id, people-name}] chores.key, supply.key, etc.key
 
-supplies.json, chores.json, etc.
+supply.json, chores.json, etc.
 
 Robert says use a join table to match users with house and houses with users
 a join table will consist of rows with single pairs
@@ -253,10 +253,10 @@ If name is in house, go to that page, otherwise go to the pick or create a house
    - User either joins a Household or creates a new one.
 Once signed up name is taken to a Household page which shows the members of the Household
 
-From there they can navigate to the supplies, chores, or admin/account components
+From there they can navigate to the supply, chores, or admin/account components
 
 
-When a new house is created there are no chores or supplies. The name must add them.
+When a new house is created there are no chores or supply. The name must add them.
 
 
 Objects needed in Firebase:
@@ -270,7 +270,7 @@ Users
 
 Terms:
 
-House: a house consists of: chores and supplies
+House: a house consists of: chores and supply
 Household: a group of users accessing the same house
 User: a member of a household
 
@@ -279,7 +279,7 @@ A7 - Project Plan
 Build with authentication and limited chore & supply.
 The only C&S functions will be to create them. Display will be limited to a simple list of each together on one page.
 A8 will integrate A6 & A7
-A7 will be able to log in a name, create houses/households, create chores & supplies
+A7 will be able to log in a name, create houses/households, create chores & supply
 A7 will demonstrate ability to have multiple users using multiple instances of the app
 Example: Purple House and Casa Corazones will each be able to have their own 'instance'
 

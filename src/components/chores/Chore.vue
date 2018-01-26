@@ -1,37 +1,45 @@
 <template>
-
-<div>
-    <div class="row">
-        <h1>Title.vue</h1>
-
-
-    </div>
-      <div class="row">
-
+  <div class="col-sm-6 col-md-6">
+    <div class="panel panel-success">
+      <div class="flex panel-heading"
+           @click="assignKeyChore(chore.name)">
+        <h2>{{chore.task}} : {{chore.name}} </h2>
+        <!--<h2>{{chore.name}}: {{chore.task}}</h2>-->
+        <!--<button class="btn btn-info">Completed</button>-->
       </div>
-</div>
+      <div class="panel-body">
+        <p>{{chore.description}}</p>
+      </div>
+    </div>
+  </div>
 </template>
 
-
-
-
 <script>
-
-
-export default {
-    props:[],
-    data: function(){
-        return {
-
-
-        };
-
+  import * as types from '../../store/types';
+  import {mapActions} from 'vuex';
+  export default {
+    props: ['chore'],
+    methods: {
+      ...mapActions({
+        assignKeyChore: types.CHORE_SET_CHORE_KEY
+      })
     }
 
-
-}
+  }
 </script>
 
 <style scoped>
+
+  .flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+  }
+
+  .flex-right {
+
+  }
+
 
 </style>

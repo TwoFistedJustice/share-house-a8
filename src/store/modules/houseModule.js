@@ -1,7 +1,7 @@
 import globalAxios from 'axios';
 import router from '../../router.js';
 import {APIkey, gObj_hasRoot} from '../../config.js';
-import memberManagement from "./memberModule";
+
 
 const state = {
 
@@ -49,14 +49,12 @@ const getters = {
 const mutations = {
 
   CLEAR_HOUSE_DATA(state) {
-    // console.log('mutation CLEAR_HOUSE_DATA');
     state.activeHouse.houseName = '';
     state.activeHouse.members = null;
     state.houseId = '';
   },
 
   SET_HOUSE_ID(state, houseId) {
-      // console.log('set house id');
     state.houseId = houseId;
   },
 
@@ -219,7 +217,7 @@ const actions = {
         OUTSIDE GET REQUEST
         gets the houseId from the users entry in the users table
       ****************************/
-      globalAxios.get('/users/' + userId + '/house' + '.json' + '?auth=' + token)
+      globalAxios.get('/users/' + userId + '/house.json' + '?auth=' + token)
         .then((response) => {
 
           if (response.data.active === true) {
@@ -245,7 +243,7 @@ const actions = {
               sets house
            ****************************/
 
-          globalAxios.get('/houses/' + houseId + '.json' + '?auth=' + token)
+          globalAxios.get('/houses/' + houseId + '.json?auth=' + token)
             .then(response => {
               /* return the data node, pass it to each succeeding then() */
               return response.data;
@@ -351,14 +349,14 @@ const actions = {
 
       //these will get moved into their appropriate modules as helpers then get dispatched when user adds data
 
-      globalAxios.patch('houses/' + pushId + '/supplies.json' + '?auth=' + token, {0: 'stuff and things'})
+      globalAxios.patch('houses/' + pushId + '/supplies.json?auth=' + token, {0: {have: false, inCart: false, item: 'Stuff & Things'}})
         .then(response => {
           console.log('houses/supplies node created')
         })
         .catch(err => console.error('instantiateHouse supplies', err));
 
 
-      globalAxios.patch('houses/' + pushId + '/chores.json' + '?auth=' + token, {0: 'get shit done'})
+      globalAxios.patch('houses/' + pushId + '/chores.json?auth=' + token, {0: 'get shit done'})
         .then(response => {
           console.log('houses/chores node created')
         })
@@ -374,7 +372,7 @@ const actions = {
  until someone adds a supply or chore
 
  Also doing it the way it is here is self-defeating
- if a user deletes all the supplies or whatnot, then the node goes away!
+ if a user deletes all the supply or whatnot, then the node goes away!
 
  */
 

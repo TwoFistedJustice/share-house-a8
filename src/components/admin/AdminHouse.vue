@@ -27,12 +27,14 @@
 
             <h3>Change the house name</h3>
             <button class="btn btn-primary" @click="changeHouseName">Change House Name</button>
-            <input type="text" name="changeHouseName" id="changeHouseName" v-model="newHouseName" placeholder="New house-name">
+            <input type="text" name="changeHouseName" id="changeHouseName" v-model="newHouseName"
+                   placeholder="New house-name">
 
             <br><br>
             <h3>Destroy everything!!! Mwahahaha!!!</h3>
             <button class="btn btn-danger"
-                    @click="deleteHouse">Burn House to Ground</button>
+                    @click="deleteHouse">Burn House to Ground
+            </button>
 
           </div>
         </div>
@@ -151,7 +153,7 @@
         const formData = {
           houseName: this.newHouseName
         }
-
+        let thing = 'changeHouseName';
         this.$store.dispatch('house/changeHouseName', formData, gObj_hasRoot);
         this.newHouseName = '';
 
@@ -164,7 +166,6 @@
         this.$store.dispatch('house/createNewHouse', formData, gObj_hasRoot);
         this.houseName = '';
       },
-
 
 
       joinHouse() {

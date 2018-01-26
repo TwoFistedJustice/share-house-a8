@@ -30,7 +30,6 @@
      *  a supply item looks like:
      *  {item: 'Paper Towels', have: true, inCart: false}
      * ***/
-    import * as types from '../../store/types';
     import {mapActions} from 'vuex';
 
     export default {
@@ -44,7 +43,7 @@
         },
         methods: {
             ...mapActions({
-                deleteItem: types.SUPPLY_DELETE_ITEM
+                deleteItem: 'supply/deleteItem'
             })
         }
 

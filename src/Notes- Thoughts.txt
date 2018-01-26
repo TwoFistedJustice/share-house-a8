@@ -1,5 +1,5 @@
 Originally I was planning one using a very flat DB strucure with separate nodes for each function
-users, houses, chores, supplies, etc.
+users, houses, chores, supply, etc.
 
 But that seems like a lot of work! I'd have to create joins and then do a lot of cross referencing
 for every action.

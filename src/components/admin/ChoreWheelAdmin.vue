@@ -7,7 +7,7 @@
         <p>Edit chores here, displays in chore wheel </p>
         <p>this is where you will set them up</p>
 
-        
+
     </div>
       <div class="row">
            <div class="form-group">
@@ -20,15 +20,15 @@
         <button class="btn btn-primary"
                 @click="addToSuppliesList"
                 >Add Supply Item</button>
-        <h3>Global this.$store.state.supplies Supplies List</h3>
+        <h3>Global this.$store.state.supply Supplies List</h3>
       <ul>
-            <li class="list-group-item" 
+            <li class="list-group-item"
                 v-for="(supply, index) in getSupplies" >{{supply.item}}
                 <button class="btn btn-danger" @click="deleteItem(index)">Delete</button>
                 </li>
       </ul>
 
-      </div>   
+      </div>
       </div>
 </div>
 </template>
@@ -39,7 +39,7 @@ import { mapActions } from 'vuex';
 import * as types from '../../store/types.js';
 
 export default {
-    
+
     data: function(){
         return {
             supplyToAdd: ''
@@ -47,14 +47,14 @@ export default {
     },
     computed: {
         ...mapGetters({
-            getSupplies: types.GET_SUPPLIES
+            getSupplies: types.GetSupplies
         }),
     }, //END COMPUTED
 
     methods: {
         ...mapActions({
-            addSupply: types.SUPPLY_ADD_SUPPLY,
-            deleteItem: types.SUPPLY_DELETE_ITEM
+            addSupply: types.AddSupply,
+            deleteItem: types.deleteItem
         }),
 
         addToSuppliesList(){
@@ -63,9 +63,9 @@ export default {
             // this.suppliesAddSupply(this.supplyToAdd);
             this.addSupply(supply);
         }
-        
+
     } // END METHODS
-    
+
 
 
 }

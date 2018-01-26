@@ -1,8 +1,9 @@
 <template>
 
   <div>
-    <!--<h3>Global this.$store.state.supplies Supplies List</h3>-->
+    <!--<h3>Global this.$store.state.supply Supplies List</h3>-->
     <div class="row">
+      <h3>remove the next fn in router.js dashboard entry</h3>
       <div class="form-group">
         <label for="supplyAdd"></label>
         <input type="text"
@@ -21,7 +22,7 @@
 
         <h1>Add or Delete</h1>
 
-        <p>Edit supplies here, displays in inventory and shopping list</p>
+        <p>Edit supply here, displays in inventory and shopping list</p>
         <!--:key prevents a bug where the checkbox re-renders pre-checked-->
         <app-admin-item v-for="(supply, index) in getSupplies"
                         :key="supply.item"
@@ -55,21 +56,21 @@
     },
     computed: {
       ...mapGetters({
-        getSupplies: types.GET_SUPPLIES
+        getSupplies: 'supply/GetSupplies  '
       }),
     }, //END COMPUTED
 
     methods: {
       ...mapActions({
-        addSupply: types.SUPPLY_ADD_SUPPLY,
-        saveSupplies: types.SUPPLY_SAVE_SUPPLY,
-//            deleteItem: types.SUPPLY_DELETE_ITEM
+        addSupply: 'supply/AddSupply',
+        saveSupplies: 'supply/saveSupply',
+
       }),
 
       addToSuppliesList() {
-        // console.log("ljlk");
+
         let supply = {item: this.supplyToAdd, have: false, inCart: false};
-        // this.suppliesAddSupply(this.supplyToAdd);
+
         this.addSupply(supply);
         this.supplyToAdd = '';
       },
