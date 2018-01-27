@@ -221,7 +221,7 @@ const actions = {
         .then((response) => {
 
           if (response.data.active === true) {
-            console.log('response.data.active ', typeof(response.data.active));
+            // console.log('response.data.active ', typeof(response.data.active));
             houseId = response.data.houseId;
             localStorage.setItem('houseId', houseId);
             let thing1 = 'SET_BELONGS_TO_HOUSE';

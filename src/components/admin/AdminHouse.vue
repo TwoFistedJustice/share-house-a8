@@ -83,7 +83,6 @@
             <button class="btn btn-success" type="submit">Join House</button>
           </div>
 
-
         </form>
 
       </div>
@@ -102,7 +101,6 @@
         <li>DONE Show Admins of House</li>
         <li>DONE Show Members of House</li>
         <li> DONE Delete member</li>
-
       </ul>
 
     </div>

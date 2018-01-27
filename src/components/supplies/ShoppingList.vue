@@ -11,12 +11,13 @@
     <div class="row">
 
       <p>Click an item when you add it to your shopping cart</p>
+      <a href="https://vuejs.org/v2/style-guide/#Keyed-v-for-essential" target ='blank'>Re-format v-for, See style guide </a>
     </div>
     <div class="row">
-      <a href="https://vuejs.org/v2/style-guide/#Keyed-v-for-essential" target ='blank'>Re-format v-for, See style guide </a>
+
       <app-shopping-item v-for="supply in getSupplies"
-                         :supply="supply"
-                         v-if="!supply.have"></app-shopping-item>
+                         :key="supply.item"
+                         :supply="supply"></app-shopping-item>
     </div>
 
   </div>

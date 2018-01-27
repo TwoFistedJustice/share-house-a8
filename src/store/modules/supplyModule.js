@@ -32,7 +32,6 @@ const getters = {
   },
 
   GetSupplies (state) {
-    console.log(state.supplies);
     return state.supplies;
   }
 }; //END GETTERS
@@ -40,7 +39,6 @@ const getters = {
 const mutations = {
   ADD_SUPPLY (state, supply) {
     //expects a supply object {item:, have: }
-    console.log(supply.item);
     // Capitalize each word of input
     //this makes it easier to read and helps to prevent duplicates
     supply.item = supply.item.replace(/\b\w/g, (l) => {
@@ -60,28 +58,24 @@ const mutations = {
     if (isSame === true) {
       state.supplies.push(supply);
     }
-
   },
   //NOT NEEDED - CAN BE DONE IN COMPONENT WITH ONE LINE OF CODE
   // Deprecated in A6
 
-  // [types.MUTATE_FLIP_ITEM_BOOL]: (state, payload) => {
-  //   // console.log("payload.have ", payload);
-  //   //expects a supply object and a string {item:, have: },
-  //   // string: which bool to set, either "have" or "inCart"
-  //   try {
-  //     if (payload.bool === 'have') {
-  //       payload.supply.have = !payload.supply.have;
-  //     } else {
-  //       payload.supply.inCart = !payload.supply.inCart;
-  //     }
-  //   }
-  //   catch (e) {
-  //     console.error(e, "MUTATE_FLIP_ITEM_BOOL: ", "You must specify a bool to flip in the supply item");
-  //   }
-  //
-  //
-  // },
+  FLIP_IN_CART_BOOL (state, payload) {
+    //expects a supply object and a string {item:, have: },
+    // string: which bool to set, either "have" or "inCart"
+    try {
+      if (payload.bool === 'have') {
+        payload.supply.have = !payload.supply.have;
+      } else {
+        payload.supply.inCart = !payload.supply.inCart;
+      }
+    }
+    catch (err) {
+      console.error(err, "MUTATE_FLIP_ITEM_BOOL: ", "You must specify a bool to flip in the supply item");
+    }
+  },
 
   // [types.MUTATE_SUPPLY_CONFIRM_CHANGE]: (state) => {
   //   console.log('MUTATE_SUPPLY_CONFIRM_CHANGE');
@@ -101,7 +95,7 @@ const mutations = {
     state.changed = true;
   },
 
-  DISPLAY_HAVE_SWITCH(state, payloadBool) {
+  SET_DISPLAY_HAVE_SWITCH(state, payloadBool) {
     //receives a boolean and sets central displayHaveSwitch to that boolean
     state.displayHaveSwitch = payloadBool;
   },
@@ -129,6 +123,7 @@ const mutations = {
   FETCH_SUPPLY (state) {
     let houseId = localStorage.getItem('houseId');
     let token = localStorage.getItem('token');
+
       globalAxios.get('houses/' + houseId + '/supplies.json?auth=' + token)
       .then(response => {
         return response.data;
@@ -147,7 +142,6 @@ const mutations = {
         if (record[0].maxContentLength === -1) {
           console.error("FETCH_SUPPLY:", "No response from database.");
         }
-        // console.error('MUTATE_FETCH_SUPPLY', record)
       });
   },
 
@@ -157,7 +151,7 @@ const mutations = {
 
     globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
       .then(response => {
-        console.log('SAVE_SUPPLY', response)
+        // console.log('SAVE_SUPPLY', response)
       })
       .catch(error => {
         console.error('SAVE_SUPPLY', error)
@@ -174,8 +168,6 @@ const actions = {
     commit('ADD_SUPPLY', supply);
     commit('SET_CHANGED', 'AddSupply');
   },
-
-
 
   confirmChange ({state, commit}) {
 
@@ -198,17 +190,15 @@ const actions = {
     commit('FETCH_SUPPLY');
   },
 
-  flipItemBool ({commit}, payload) {
+  flipInCartBool ({commit}, payload) {
     //expects a supply object {item:, have: }
-    console.log('flipItemBool', payload);
-    commit('FLIP_ITEM_BOOL', payload);
-    commit('SET_CHANGED', 'flipItemBool');
+    commit('FLIP_IN_CART_BOOL', payload);
+    commit('SET_CHANGED', 'flipInCartBool');
   },
 
   saveSupply ({commit}) {
     commit('SAVE_SUPPLY');
   },
-
 
   setDisplayHaveSwitch ({commit}, payloadBool) {
     //expects a boolean

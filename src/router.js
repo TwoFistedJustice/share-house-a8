@@ -81,7 +81,7 @@ const routes = [
     //if NOT logged in go straight to sign-in
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
-        next('/adminSupplies');
+        // next('/adminSupplies');
 
         next();
       } else {

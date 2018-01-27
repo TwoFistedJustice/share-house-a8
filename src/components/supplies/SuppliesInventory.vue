@@ -16,6 +16,7 @@
     <div class="row">
       <app-inventory-item
         v-for="supply in getSupplies"
+        :key="supply.item"
         :supply="supply"></app-inventory-item>
     </div>
 
@@ -60,7 +61,7 @@
 
     methods: {
       ...mapActions({
-        changeItemHaveStatus: 'supply/flipItemBool',
+        changeItemHaveStatus: 'supply/flipInCartBool',
 //        confirmChanges: types.confirmChangse,`
         saveSupplies: 'supply/saveSupply',
         setDisplayHaveSwitch: 'supply/setDisplayHaveSwitch',

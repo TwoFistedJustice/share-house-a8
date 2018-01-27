@@ -1,9 +1,15 @@
--L3Pm5sRnpS-ZwA3UfaX
+-L3oEYETa_h_mH7ZDKnP
 
 
 
-Add:
+BUG: state.adminCount not decreasing when admins removed
+BUG: state.memberCount still active after log out
 
+
+
+BUG: all supplies deleted from DB at logout
+      - intermittent
+Add: only admins can see adminLists
 
 
 

@@ -20,11 +20,12 @@
       </div>
 
     </div> -->
-    <!--  @click="changeItemBoolStatus( {supply: supply, bool: 'have'} )"    -->
+    <!--  @click="changeItemBoolStatus( {supply: supply, bool: 'have'} )">        -->
     <div class="panel"
          v-bind:class="{'panel-danger': !supply.have, 'panel-success': supply.have}">
       <div class="flex panel-heading"
-           @click="flipBool"
+
+        @click="supply.have = !supply.have">
 
         <h2 v-if="supply.have">{{supply.item}} : We have this.</h2>
         <h2 v-if="!supply.have">{{supply.item}} : We need this.</h2>
@@ -43,18 +44,19 @@
   import {mapActions} from 'vuex';
   import {gObj_hasRoot} from "../../config";
   //     import * as types from '../../store/types.js';
-  // import {flipItemBool} from '../../store/types.js';
+  // import {flipInCartBool} from '../../store/types.js';
 
   export default {
     props: ['supply'],
 
     methods:{
       ...mapActions({
-        changeItemBoolStatus: 'supply/flipItemBool'
+        changeItemBoolStatus: 'supply/flipInCartBool'
       }),
 
       flipBool(){
-        dispatch('supply/flipItemBool', {supply: supply, bool: 'have'}, gObj_hasRoot);
+        this.supply.have = !this.supply.have;
+
       }
     }
   }

@@ -73,7 +73,7 @@ export const CHORE_SORT_NAMES = 'chores/CHORE_SORT_NAMES';
 
 //****** supply Actions******************//
 export const AddSupply = 'supply/AddSupply';
-export const flipItemBool = 'supply/flipItemBool';
+export const flipItemBool = 'supply/flipInCartBool';
 export const deleteItem = 'supply/deleteItem';
 export const setDisplayHaveSwitch = 'supply/setDisplayHaveSwitch';
 export const switchAllHaveStatus = 'supply/switchAllHaveStatus';
