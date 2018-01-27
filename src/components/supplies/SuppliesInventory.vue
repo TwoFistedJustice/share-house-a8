@@ -68,7 +68,7 @@
         switchAllHaveStatus: 'supply/switchAllHaveStatus'
       }),
       checkArrayBools() {
-        //This fn sets the displayHaveSwitch property to govern the switch-all button text
+        //This fn sets the buttonHaveSwitch property to govern the switch-all button text
         //check boolean contents of getSupplies[], if all are same
         //change the button value
         let holdingBool = false;
@@ -87,7 +87,7 @@
         } else if (sum === this.getSupplies.length) {
           holdingBool = true;
         } else {
-          holdingBool = this.displayHaveSwitch;
+          holdingBool = this.buttonHaveSwitch;
         }
         return holdingBool;
       }, //end checkArrayBools

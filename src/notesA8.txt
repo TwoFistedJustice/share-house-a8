@@ -12,7 +12,10 @@ BUG: all supplies deleted from DB at logout
 Add: only admins can see adminLists
 
 
-
+Supplies Feature
+Supplies feature should save on every change
+The only exception is the shopping list, which must be able to work primarily offline
+because many grocery stores or warehouse stores lack connectivity.
 
 
 
