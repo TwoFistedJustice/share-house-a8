@@ -4,8 +4,6 @@
       <div class="flex panel-heading"
            @click="assignKeyChore(chore.name)">
         <h2>{{chore.task}} : {{chore.name}} </h2>
-        <!--<h2>{{chore.name}}: {{chore.task}}</h2>-->
-        <!--<button class="btn btn-info">Completed</button>-->
       </div>
       <div class="panel-body">
         <p>{{chore.description}}</p>

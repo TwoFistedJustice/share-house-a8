@@ -2,8 +2,8 @@
 
   <div>
     <h2>ChoreGrid.vue</h2>
-    <h2>{{testString}}</h2>
     <div class="row">
+      <h4>This feature is not fully funcional. It is not yet connected with the rest of the app.</h4>
       <app-chore v-for="chore in rotation" :chore="chore"></app-chore>
     </div>
 
@@ -22,7 +22,6 @@
     computed: {
       ...mapGetters({
         rotation: 'chores/GetRotation',
-        testString: 'chores/testGetter'
       }),
 
     },

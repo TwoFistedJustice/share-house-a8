@@ -3,8 +3,7 @@
   <div>
     <!--<h3>Global this.$store.state.supply Supplies List</h3>-->
     <div class="row">
-      <h3>remove the next fn in router.js dashboard entry</h3>
-      <h3>Add a button that switches to from full live online to local only state</h3>
+
       <div class="form-group">
         <label for="supplyAdd"></label>
         <input type="text"
@@ -12,10 +11,8 @@
                class="form-control"
                v-on:keyup.enter="addToSuppliesList"
                v-model='supplyToAdd'>
-
         <button class="btn btn-primary"
-                @click="addToSuppliesList"
-        >Add Supply Item
+                @click="addToSuppliesList">Add Supply Item
         </button>
       </div>
 
@@ -74,7 +71,7 @@
         this.addSupply(supply);
         this.supplyToAdd = '';
       },
-      fetchData(){
+      fetchData() {
         console.log('fetch');
       }
 

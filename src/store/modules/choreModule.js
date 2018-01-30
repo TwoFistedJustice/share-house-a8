@@ -24,16 +24,13 @@ const getters = {
     return state.rotation;
   },
 
-  testGetter(state){
-    return "flartybartfast";
-  }
 
 };
 
 const mutations = {
   //loads data from files at App.vue create hook
   SET_CHORES (state, {chores}) {
-    console.log('set chores', chores);
+    // console.log('set chores', chores);
     state.chores = chores;
   },
 
@@ -69,7 +66,7 @@ const mutations = {
 
   },
   SORT_NAMES (state) {
-      console.log('sort nameses', names);
+      // console.log('sort nameses', names);
 
     //find index of person with trash (choreKey) duty
     //sort the names so 'choreKey: true' is at index 0
@@ -104,7 +101,7 @@ const actions = {
   },
   // leave initChores as a standard action - called in the created hook in app.vue
   initChores ({commit}) {
-    console.log('*************init');
+    console.warn('***** initializing chores from local data file');
     commit('SET_CHORES', {chores});
     commit('SORT_NAMES');
     commit('SET_ROTATION');

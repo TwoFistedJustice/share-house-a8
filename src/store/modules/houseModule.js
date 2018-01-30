@@ -290,10 +290,11 @@ const actions = {
 
         globalAxios.get('/users/' + memberArray[i].id + '.json?auth=' + token)
           .then(response => {
-            // console.log('members', response);
+            console.log('fetchMembers GET', response);
             let memberBlob = {
               id: memberArray[i].id,
               isAdmin: memberArray[i].isAdmin,
+              email: response.data.email,
               name: response.data.name.first + ' ' + response.data.name.last,
               role: ''
             };

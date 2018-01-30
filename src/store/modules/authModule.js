@@ -75,7 +75,7 @@ const actions = {
     })
       .then(response => {
         password: authData.password,
-          console.log('login.then', response);
+          // console.log('login.then', response);
         commit('auth/SET_AUTH_DATA', {
           idToken: response.data.idToken,
           refreshToken: response.data.refreshToken,

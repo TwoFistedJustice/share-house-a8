@@ -18,6 +18,7 @@ const state = {
   /* belongToHouse is a bool based on DB query that returns true if user belongs to a house an false if not */
   belongsToHouse: false,
   userInfo: {
+    email: null,
     name: null,
     isAdmin: false,
     role: ''
@@ -44,8 +45,10 @@ const mutations = {
   CLEAR_USER_DATA(state) {
     localStorage.setItem('belongsToHouse', false);
     state.belongsToHouse = false;
+    state.userInfo.email = null;
     state.userInfo.isAdmin = false;
     state.userInfo.role = '';
+
   },
 
   CLEAR_USER_NAME(state) {
@@ -59,6 +62,7 @@ const mutations = {
 
   SET_USER_INFO(state, userBlob) {
     /* Set user's name, admin status, and role */
+    state.userInfo.email = userBlob.email;
     state.userInfo.name = userBlob.name;
     state.userInfo.isAdmin = userBlob.isAdmin;
     state.userInfo.role = userBlob.role;
@@ -91,12 +95,13 @@ const actions = {
   },
 
   setUserInfo({commit}, payload) {
+    console.log('********user/setUserInfo', payload);
     /* payload looks just like userBlob in the else block*/
     /* if no payload is passed, it means user does not belong to a house
     *  only then go to the dB and get their info,otherwise it comes from their
     *  member info in activeHouse - this is to prevent redundant db gets
     * */
-
+    /*  if user belongs to a house, get their info from local state */
     if (payload != null) {
       let thing1 = 'SET_USER_INFO';
       commit('user/SET_USER_INFO', payload, gObj_hasRoot);
@@ -104,16 +109,18 @@ const actions = {
 
       let userId = localStorage.getItem('userId');
       let token = localStorage.getItem('token');
-
+      /*  user doesn't belong to a house, get their info from the DB */
       globalAxios.get('users/' + userId + '.json?auth=' + token)
         .then(response => {
-          let role = 'MemberDude';
+
+          let role = '';
           if (!response.data.house) {
             role = 'Seeker';
           }
 
           // console.log('getting user info ', response);
           let userBlob = {
+            email: response.data.email,
             id: response.data.id,
             isAdmin: false,
             name: response.data.name.first + ' ' + response.data.name.last,
@@ -123,7 +130,7 @@ const actions = {
           commit('user/SET_USER_INFO', userBlob, gObj_hasRoot);
 
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error('user/setUserInfo', err));
     }
   },
 
