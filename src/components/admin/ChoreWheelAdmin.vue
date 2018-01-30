@@ -36,7 +36,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
-import * as types from '../../store/types.js';
+import * as t from '../../store/types.js';
 
 export default {
 

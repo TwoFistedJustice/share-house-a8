@@ -13,7 +13,7 @@
 
 
   //****** chore Getters ******************//
-export const GET_ROTATION = 'chores/GET_ROTATION';
+export const GetRotation = 'chores/GetRotation';
 
 //****** supply Getters ******************//
 
@@ -44,10 +44,10 @@ export const MUTATE_SUPPLY_CONFIRM_CHANGE = 'supply/MUTATE_SUPPLY_CONFIRM_CHANGE
 export const MUTATE_SET_CHANGED = 'supply/MUTATE_SET_CHANGED';
 
 //****** chore Mutations******************//
-export const MUTATE_SET_CHORE_KEY = 'chores/MUTATE_SET_CHORE_KEY';
-export const MUTATE_SET_CHORES = 'chores/MUTATE_SET_START';
-export const MUTATE_SET_ROTATION = 'chores/MUTATE_SET_ROTATION';
-export const MUTATE_SORT_NAMES = 'chores/MUTATE_SORT_NAMES';
+export const SET_CHORE_KEY = 'chores/SET_CHORE_KEY';
+export const SET_CHORES = 'chores/MUTATE_SET_START';
+export const SET_ROTATION = 'chores/SET_ROTATION';
+export const SORT_NAMES = 'chores/SORT_NAMES';
 
 //****** supply Database Mutations******************//
 
@@ -66,8 +66,8 @@ export const MUTATE_SAVE_SUPPLY = 'firebase/MUTATE_SAVE_SUPPLY';
  ****************************************************************/
 
 //****** chore Actions******************//
-export const CHORE_SET_CHORE_KEY = 'chores/CHORE_SET_CHORE_KEY';
-export const CHORE_SORT_NAMES = 'chores/CHORE_SORT_NAMES';
+export const setChoreKey = 'chores/setChoreKey';
+export const sortNames = 'chores/sortNames';
 
 
 

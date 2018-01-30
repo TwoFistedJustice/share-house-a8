@@ -12,7 +12,7 @@ import Dashboard from './components/admin/Dashboard.vue';
 import AdminHouse from './components/admin/AdminHouse.vue';
 import TEST from './components/TEST.vue';
 
-// import ChoreWheel from './components/chores/ChoreGrid.vue';
+import ChoreWheel from './components/chores/ChoreGrid.vue';
 // import CostSplit from './components//CostSplit.vue';
 // import EventPlan from './components/EventPlanning.vue';
 // import Messenger from './components/Messenger.vue';
@@ -41,7 +41,7 @@ const routes = [
   //Administration
 
   //Features
-  // {path: '/choreWheel', component: ChoreWheel, name: 'choreWheel'},
+
   // {path: '/costSplit', component: CostSplit, name: 'costSplit'},
   // {path: '/eventPlanning', component: EventPlan, name: 'eventPlan'},
   // {path: '/messenger', component: Messenger, name: 'messenger'},
@@ -61,24 +61,24 @@ const routes = [
       } else {
         next();
       }
-    }
+    } /* end method */
   },
 
   {
     path: '/signin', component: SignIn, name: 'signin',
-    //if logged in go straight to dashboard
+    /* if NOT logged in go straight to dashboard */
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
         next('/dashboard');
       } else {
         next();
       }
-    }
+    } /* end method */
   },
 
   {
     path: '/dashboard', component: Dashboard, name: 'dashboard',
-    //if NOT logged in go straight to sign-in
+    /* if NOT logged in go straight to sign-in */
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
         // next('/adminSupplies');
@@ -87,56 +87,67 @@ const routes = [
       } else {
         next('/signin');
       }
-    }// end method
+    } /* end method */
   },
 
   {
     path: '/adminHouse', component: AdminHouse, name: 'adminHouse',
-    //if NOT logged in go straight to sign-in
+    /* if NOT logged in go straight to sign-in */
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
         next();
       } else {
         next('/signin');
       }
-    }// end method
+    } /* end method */
   },
 
   {
     path: '/adminSupplies', component: AdminSupplies, name: 'adminSupplies',
-    //if NOT logged in go straight to sign-in
+    /* if NOT logged in go straight to sign-in */
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
         next();
       } else {
         next('/signin');
       }
-    }// end method
+    } /* end method */
   },
 
   /* FEATURE ROUTES*/
   {
     path: '/shoppingList', component: ShoppingList, name: 'shoppingList',
-    //if NOT logged in go straight to sign-in
+    /* if NOT logged in go straight to sign-in */
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
         next();
       } else {
         next('/signin');
       }
-    }// end method
+    } /* end method */
   },
 
   {path: '/suppliesInventory', component: SuppliesInventory, name: 'suppliesInventory',
-    //if NOT logged in go straight to sign-in
+    /* if NOT logged in go straight to sign-in */
     beforeEnter(to, from, next) {
       if (store.state.auth.idToken) {
         next();
       } else {
         next('/signin');
       }
-    }// end method
+    } /* end method */
   },
+{path: '/choreWheel', component: ChoreWheel, name: 'choreWheel',
+/* if NOT logged in go straight to sign-in */
+  beforeEnter(to, from, next) {
+    if (store.state.auth.idToken) {
+      next();
+    } else {
+      next('/signin');
+    }
+  } /* end method */
+},
+
 
 
   // {path: '/profiles', components: {default: Profiles

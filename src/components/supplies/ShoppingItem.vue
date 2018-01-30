@@ -30,8 +30,8 @@
    * ***/
 
   import {mapActions} from 'vuex';
-  //     import * as types from '../../store/types.js';
-  // import {flipInCartBool} from '../../store/types.js';
+  //     import * as t from '../../store/t.js';
+  // import {flipInCartBool} from '../../store/t.js';
 
 
   export default {

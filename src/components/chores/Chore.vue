@@ -15,13 +15,13 @@
 </template>
 
 <script>
-  import * as types from '../../store/types';
+
   import {mapActions} from 'vuex';
   export default {
     props: ['chore'],
     methods: {
       ...mapActions({
-        assignKeyChore: types.CHORE_SET_CHORE_KEY
+        assignKeyChore: 'chores/setChoreKey'
       })
     }
 

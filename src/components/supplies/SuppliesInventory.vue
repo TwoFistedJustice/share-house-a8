@@ -62,7 +62,7 @@
     methods: {
       ...mapActions({
         changeItemHaveStatus: 'supply/flipInCartBool',
-//        confirmChanges: types.confirmChangse,`
+//        confirmChanges: t.confirmChangse,`
         saveSupplies: 'supply/saveSupply',
         setDisplayHaveSwitch: 'supply/setDisplayHaveSwitch',
         switchAllHaveStatus: 'supply/switchAllHaveStatus'

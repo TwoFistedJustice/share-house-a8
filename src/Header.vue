@@ -101,6 +101,11 @@
                              active-class=""
                              class="list-group-item" exact><a>suppliesInventory</a></router-link>
 
+                <router-link to="choreWheel"
+                             tag="li"
+                             active-class=""
+                             class="list-group-item" exact><a>Chore Wheel</a></router-link>
+
 
               </ul>
             </li> <!-- END DROP DOWN -->
@@ -146,8 +151,8 @@
     methods: {
 
       ...mapActions({
-        // saveSupplies: types.saveSupply,
-        // fetchSupplies: types.fetchSupply
+        // saveSupplies: t.saveSupply,
+        // fetchSupplies: t.fetchSupply
       }),
       TestFn() {
         console.log('test');

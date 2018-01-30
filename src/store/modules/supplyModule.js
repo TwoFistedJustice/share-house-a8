@@ -144,7 +144,7 @@ const mutations = {
         }
 
         if (record[0].maxContentLength === -1) {
-          console.error("FETCH_SUPPLY:", "No response from database.");
+          console.error("FETCH_SUPPLY:", "No response from database.", record);
         }
       });
   },

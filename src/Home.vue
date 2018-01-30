@@ -67,10 +67,10 @@
         </ul>
         <h4>Alpha 5</h4>
         <ul>
-            <li>Added naming/types to Vuex</li>
+            <li>Added naming/t to Vuex</li>
             <li>Incorporates vuex modules to distribute actions, mutations, getters across multiple files</li>
             <li>Refactored all supply properties and methods to shorter syntax</li>
-            <li>Added Vuex namespacing - manually configured - see types.js</li>
+            <li>Added Vuex namespacing - manually configured - see t.js</li>
             <li>Disabled most components</li>
             <li>Vuex state passes data between ShoppingList, SuppliesInventory, & AdminstrateLists</li>
         </ul>

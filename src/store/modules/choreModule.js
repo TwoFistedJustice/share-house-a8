@@ -1,6 +1,5 @@
-import * as types from '../../store/types.js'
-import chores from '../../data/chores.js';
-import names from '../../data/names.js';
+import chores from '../../components/chores/choreData.js';
+import names from '../../components/chores/names.js';
 import globalAxios from 'axios';
 import router from '../../router.js';
 import {APIkey, gObj_hasRoot} from '../../config.js';
@@ -19,13 +18,26 @@ const state = {
   rotation: [],
 };
 
+const getters = {
+
+  GetRotation (state) {
+    return state.rotation;
+  },
+
+  testGetter(state){
+    return "flartybartfast";
+  }
+
+};
+
 const mutations = {
   //loads data from files at App.vue create hook
-  [types.MUTATE_SET_CHORES]:(state, {chores}) => {
+  SET_CHORES (state, {chores}) {
+    console.log('set chores', chores);
     state.chores = chores;
   },
 
-  [types.MUTATE_SET_CHORE_KEY]:(state, name) =>{
+  SET_CHORE_KEY (state, name) {
 
     let currentKey = state.names.findIndex(element => element.choreKey === true);
 
@@ -36,7 +48,7 @@ const mutations = {
 
   },
 
-  [types.MUTATE_SET_ROTATION]:(state) => {
+  SET_ROTATION (state) {
     state.rotation = [];
 
     //this depends on names and chores array being same length!!!
@@ -56,8 +68,8 @@ const mutations = {
     }
 
   },
-  [types.MUTATE_SORT_NAMES]: (state) => {
-
+  SORT_NAMES (state) {
+      console.log('sort nameses', names);
 
     //find index of person with trash (choreKey) duty
     //sort the names so 'choreKey: true' is at index 0
@@ -82,30 +94,25 @@ const mutations = {
 };
 
 const actions = {
-  [types.CHORE_SET_CHORE_KEY]: ({commit}, name) => {
-    commit(types.MUTATE_SET_CHORE_KEY, name);
-    commit(types.MUTATE_SORT_NAMES);
-    commit(types.MUTATE_SET_ROTATION);
+  setChoreKey ({commit}, name) {
+    commit('SET_CHORE_KEY', name);
+    commit('SORT_NAMES');
+    commit('SET_ROTATION');
   },
-  [types.CHORE_SORT_NAMES]: ({commit}) =>{
-    commit(types.MUTATE_SORT_NAMES);
+  sortNames ({commit}) {
+    commit('SORT_NAMES');
   },
   // leave initChores as a standard action - called in the created hook in app.vue
-  initChores: ({commit}) => {
+  initChores ({commit}) {
     console.log('*************init');
-    commit(types.MUTATE_SET_CHORES, {chores});
-    commit(types.MUTATE_SORT_NAMES);
-    commit(types.MUTATE_SET_ROTATION);
+    commit('SET_CHORES', {chores});
+    commit('SORT_NAMES');
+    commit('SET_ROTATION');
   },
 
 };
-const getters = {
 
-  [types.GET_ROTATION]: state => {
-    return state.rotation;
-  }
 
-};
 
 export default {
   namespaced: true,
