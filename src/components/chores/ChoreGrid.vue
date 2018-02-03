@@ -4,9 +4,11 @@
     <h2>ChoreGrid.vue</h2>
     <div class="row">
       <h4>This feature is not fully funcional. It is not yet connected with the rest of the app.</h4>
-      <app-chore v-for="chore in rotation" :chore="chore"></app-chore>
+      <app-chore
+        v-for="chore in rotation"
+        :chore="chore"
+        :key="chore.key"></app-chore>
     </div>
-
 
 
   </div>
@@ -15,7 +17,7 @@
 <script>
 
   import appChore from './Chore.vue';
-  import { mapGetters } from 'vuex';
+  import {mapGetters} from 'vuex';
 
 
   export default {
@@ -28,7 +30,7 @@
     components: {
       appChore
     },
-    data: function(){
+    data: function () {
       return {
         notesBool: false,
         componentFeatures: [

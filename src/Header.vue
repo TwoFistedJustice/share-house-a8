@@ -2,6 +2,7 @@
   <div>
     <nav class="navbar navbar-default">
       <button v-if="isAuthenticated" @click="TestFn" class="btn btn-danger">Test Function</button>
+
       <div class="container-fluid">
         <div class="navbar-header">
           <router-link to="/"
@@ -14,6 +15,7 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
 
           </form>
           <ul class="nav navbar-nav navbar-right list-group">
@@ -156,9 +158,9 @@
       }),
       TestFn() {
 
-        confirm("Which button would you like to press to blow up the earth?");
+        // confirm("Which button would you like to press to blow up the earth?");
         // console.log('test');
-        // this.$store.dispatch('membership/testFn', null, gObj_hasRoot);
+        this.$store.dispatch('supply/testFn', null, gObj_hasRoot);
       },
       onLogout() {
         this.$store.dispatch('auth/logout', null, gObj_hasRoot);

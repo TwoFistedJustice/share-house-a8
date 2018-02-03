@@ -129,6 +129,7 @@ const actions = {
       * */
       globalAxios.post('houses.json/?auth=' + token, houseBlob)
         .then(resp => {
+          console.log(houseBlob, resp);
           return resp.data;
         })
         .then(data => {

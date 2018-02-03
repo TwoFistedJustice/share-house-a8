@@ -1,5 +1,13 @@
--L3oEYETa_h_mH7ZDKnP
 
+
+BUG: setDisplayHaveSwitch is on infinite loop
+    : I think the problems is in the vue component SuppliesInventory.vue
+      a computed property calls the action via a mapAction METHOD
+        Methods fire over and over
+       proposed solution: dispatch the action directly from the computed property
+          - first one didn't work...
+       may also be that it is passed a method, rather than being fully computed
+       refactor checkArrayBools to a computed property
 
 
 BUG: state.adminCount not decreasing when admins removed

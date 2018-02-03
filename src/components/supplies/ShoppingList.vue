@@ -25,10 +25,10 @@
 
 <script>
 
-  /***
-   *  a supply item looks like:
-   *  {item: 'Paper Towels', have: true},
-   * ***/
+  /* ******************
+ *  a supply item looks like:
+ *  {item: 'Paper Towels', have: true, inCart: false}
+ ********************************************************** */
 
 
   import {mapGetters} from 'vuex';
@@ -54,6 +54,7 @@
       })
     },
     beforeDestroy() {
+      let thing = 'saveSupply';
       this.saveSupplies();
     },
 

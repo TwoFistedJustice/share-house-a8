@@ -27,7 +27,7 @@
 <script>
   import {mapGetters} from 'vuex';
   import {mapActions} from 'vuex';
-
+  import {gObj_hasRoot} from "../../config";
   import appInventoryItem from './InventoryItem.vue';
 
   export default {
@@ -48,7 +48,10 @@
         //TODO this line causes supply.module.changed to get set,it needs to not do that
         //because it fires the changed bool setter in supply module
         //may need to separate the click setting from this one
-        this.setDisplayHaveSwitch(this.checkArrayBools());
+        // this.setDisplayHaveSwitch(this.checkArrayBools());
+        this.$store.dispatch('supply/setDisplayHaveSwitch', this.checkArrayBools(), gObj_hasRoot);
+
+
 
         if (this.getHaveSwitch === true) {
           return 'Need';
@@ -62,7 +65,6 @@
     methods: {
       ...mapActions({
         changeItemHaveStatus: 'supply/flipInCartBool',
-//        confirmChanges: t.confirmChangse,`
         saveSupplies: 'supply/saveSupply',
         setDisplayHaveSwitch: 'supply/setDisplayHaveSwitch',
         switchAllHaveStatus: 'supply/switchAllHaveStatus'
@@ -98,7 +100,7 @@
     },
 
     beforeDestroy() {
-//      this.confirmChanges();
+      let thing = 'saveSupply';
       this.saveSupplies();
     },
 

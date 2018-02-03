@@ -1,16 +1,5 @@
 <template>
   <div class="col-sm-6 col-md-6">
-    <!--<div class="panel"-->
-    <!--v-bind:class="{'panel-danger': !supply.inCart, 'panel-success': supply.inCart}">-->
-    <!--<div class="flex panel-heading"-->
-    <!--@click="supply.inCart = !supply.inCart">-->
-    <!--<h2 v-if="supply.inCart"> Added to cart: {{supply.item}}</h2>-->
-    <!--<h2 v-if="!supply.inCart">{{supply.item}}</h2>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--  @click="changeItemBoolStatus( {supply: supply, bool: 'inCart'} )">   -->
-    <!--   @click="flipBool">       -->
-
     <div class="panel"
          v-bind:class="{'panel-danger': !supply.inCart, 'panel-success': supply.inCart}">
       <div class="flex panel-heading"
@@ -24,15 +13,12 @@
 
 <script>
 
-  /***
+  /* ******************
    *  a supply item looks like:
    *  {item: 'Paper Towels', have: true, inCart: false}
-   * ***/
+   ********************************************************** */
 
   import {mapActions} from 'vuex';
-  //     import * as t from '../../store/t.js';
-  // import {flipInCartBool} from '../../store/t.js';
-
 
   export default {
     props: ['supply'],
@@ -40,7 +26,7 @@
       ...mapActions({
         changeItemBoolStatus: 'supply/flipInCartBool'
       }),
-      flipBool(){
+      flipBool() {
         this.supply.inCart = !this.supply.inCart;
       }
 

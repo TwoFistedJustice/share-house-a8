@@ -20,7 +20,9 @@ const state = {
   supplies: [],
   //will be used to check for changes to prompt user to save
   //should be false until supplies are changed, set back when saved
-  changed: false
+  changed: false,
+  //using this to determine why firebase keeps deleting the supply node
+  fireBaseWrites: []
 
 }; //END STATE
 
@@ -35,17 +37,17 @@ const state = {
 
 const getters = {
 
-  GetDisplayHaveSwitch (state) {
+  GetDisplayHaveSwitch(state) {
     return state.buttonHaveSwitch;
   },
 
-  GetSupplies (state) {
+  GetSupplies(state) {
     return state.supplies;
   }
 }; //END GETTERS
 
 const mutations = {
-  ADD_SUPPLY (state, supply) {
+  ADD_SUPPLY(state, supply) {
     /* expects a supply object {item:, have: }
     * Capitalize each word of input
     * this makes it easier to read and helps to prevent duplicates */
@@ -70,7 +72,7 @@ const mutations = {
   //NOT NEEDED - CAN BE DONE IN COMPONENT WITH ONE LINE OF CODE
   // Deprecated in A6
 
-  FLIP_IN_CART_BOOL (state, payload) {
+  FLIP_IN_CART_BOOL(state, payload) {
     /* expects a supply object and a string {item:, have: },
     *  string: which bool to set, either "have" or "inCart" */
     try {
@@ -86,12 +88,12 @@ const mutations = {
   },
 
 
-  DELETE_ITEM (state, index) {
+  DELETE_ITEM(state, index) {
     /* expects the array index of the item to be deleted
     * Deletes a supply object at that index */
     state.supplies.splice(index, 1);
   },
-  SET_CHANGED (state) {
+  SET_CHANGED(state) {
     /*  name is the name of the calling action,
     * it helps to find which of the 40 gazillion calls is causing a problem
     * console.log('MUTATE_SET_CHANGED: ', name);
@@ -104,7 +106,7 @@ const mutations = {
     state.buttonHaveSwitch = payloadBool;
   },
 
-  SWITCH_ALL_HAVE_STATUS (state) {
+  SWITCH_ALL_HAVE_STATUS(state) {
     /* switches all the supply objects have bools to be the same */
     state.buttonHaveSwitch = !state.buttonHaveSwitch;
 
@@ -118,17 +120,15 @@ const mutations = {
 
   },
 
-  TOGGLE_HAVE_STATUS (state) {
+  TOGGLE_HAVE_STATUS(state) {
     state.buttonHaveSwitch = !state.buttonHaveSwitch;
   },
 
-  // DATABASE MUTATIONS
-
-  FETCH_SUPPLY (state) {
+  FETCH_SUPPLY(state) {
     let houseId = localStorage.getItem('houseId');
     let token = localStorage.getItem('token');
 
-      globalAxios.get('houses/' + houseId + '/supplies.json?auth=' + token)
+    globalAxios.get('houses/' + houseId + '/supplies.json?auth=' + token)
       .then(response => {
         return response.data;
       })
@@ -149,17 +149,23 @@ const mutations = {
       });
   },
 
-  SAVE_SUPPLY (state) {
+  SAVE_SUPPLY(state) {
+
+    let timeStamp = Date.now();
+    let now = timeStamp.toString();
+
     let houseId = localStorage.getItem('houseId');
     let token = localStorage.getItem('token');
 
-    globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
-      .then(response => {
-        console.log('putting supplies');
-      })
-      .catch(error => {
-        console.error('SAVE_SUPPLY', error)
-      });
+
+      globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
+        .then(response => {
+          state.fireBaseWrites.push(now);
+          console.log('putting supplies', now);
+        })
+        .catch(error => {
+          console.error('SAVE_SUPPLY', error)
+        });
   },
 
 
@@ -167,59 +173,81 @@ const mutations = {
 
 
 const actions = {
-  AddSupply ({commit}, supply) {
+  testFn({context}){
+
+    let houseId = localStorage.getItem('houseId');
+    let token = localStorage.getItem('token');
+
+    globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, {})
+      .then(response => {
+        console.log('putting supplies');
+      })
+      .catch(error => {
+        console.error('SAVE_SUPPLY', error)
+      });
+
+
+
+  },
+
+  AddSupply({commit}, supply) {
     /*  expects a supply object {item:, have: } */
     commit('ADD_SUPPLY', supply);
+    console.log('AddSupply firing save supply');
     commit('SAVE_SUPPLY');
   },
 
-  confirmChange ({state, commit}) {
+  confirmChange({state, commit}) {
 
     if (state.changed === true) {
       if (confirm("Save changes?")) {
-        // console.log("s******ave");
+        console.log('confirmChange firing save supply');
         commit('SAVE_SUPPLY');
         state.changed = false;
       }
     }
   },
 
-  deleteItem ({commit}, index) {
+  deleteItem({commit}, index) {
     /* expects the array index of the item to be deleted */
     commit('DELETE_ITEM', index);
+    console.log('deleteItem firing save supply');
     commit('SAVE_SUPPLY');
   },
 
-  fetchSupply ({commit}) {
+  fetchSupply({commit}) {
     commit('FETCH_SUPPLY');
   },
 
-  flipInCartBool ({commit}, payload) {
+  flipInCartBool({commit}, payload) {
     /* expects a supply object {item:, have: } */
     commit('FLIP_IN_CART_BOOL', payload);
     commit('SAVE_SUPPLY');
   },
 
-  // saveSupply ({commit}) {
-  //   commit('SAVE_SUPPLY');
-  // },
+  /* dispatched from beforeDestroy in supply display components */
+  saveSupply({commit}){
+    commit('SAVE_SUPPLY');
+  },
 
-  setDisplayHaveSwitch ({commit}, payloadBool) {
+  setDisplayHaveSwitch({commit}, payloadBool) {
     /* expects a boolean */
     commit('SET_DISPLAY_HAVE_SWITCH', payloadBool);
+    console.log('setDisplayHaveSwitch firing save supply');
     commit('SAVE_SUPPLY');
 
   },
 
-  switchAllHaveStatus ({commit}) {
+  switchAllHaveStatus({commit}) {
     /* changes all the bools in the supply array to same */
     commit('SWITCH_ALL_HAVE_STATUS');
     commit('SAVE_SUPPLY');
   },
 
-  toggleHaveStatus ({commit}) {
+  toggleHaveStatus({commit}) {
     /* toggles the bool in a single supply object {item:, have: } */
     commit('TOGGLE_HAVE_STATUS');
+    console.log('toggleHaveStatus firing save supply');
     commit('SAVE_SUPPLY');
   },
 
