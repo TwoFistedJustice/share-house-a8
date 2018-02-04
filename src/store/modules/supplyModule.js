@@ -24,7 +24,7 @@ const state = {
   //using this to determine why firebase keeps deleting the supply node
   fireBaseWrites: [],
   /* this must be set to true to allow DB writes to supply node */
-  postOkay: null
+  okayToPost: null
 
 
 }; //END STATE
@@ -127,30 +127,30 @@ const mutations = {
     state.buttonHaveSwitch = !state.buttonHaveSwitch;
   },
 
-  FETCH_SUPPLY(state) {
-    let houseId = localStorage.getItem('houseId');
-    let token = localStorage.getItem('token');
-
-    globalAxios.get('houses/' + houseId + '/supplies.json?auth=' + token)
-      .then(response => {
-        return response.data;
-      })
-      .then(data => {
-        /* axios converts to array automagically! :-)
-         * must use slice or it makes reference copies */
-        state.supplies = data.slice(0, data.length);
-      })
-      .catch(error => {
-        let record = [];
-        for (let key in error) {
-          record.push(error[key]);
-        }
-
-        if (record[0].maxContentLength === -1) {
-          console.error("FETCH_SUPPLY:", "No response from database.", record);
-        }
-      });
-  },
+  // FETCH_SUPPLY(state) {
+  //   let houseId = localStorage.getItem('houseId');
+  //   let token = localStorage.getItem('token');
+  //
+  //   globalAxios.get('houses/' + houseId + '/supplies.json?auth=' + token)
+  //     .then(response => {
+  //       return response.data;
+  //     })
+  //     .then(data => {
+  //       /* axios converts to array automagically! :-)
+  //        * must use slice or it makes reference copies */
+  //       state.supplies = data.slice(0, data.length);
+  //     })
+  //     .catch(error => {
+  //       let record = [];
+  //       for (let key in error) {
+  //         record.push(error[key]);
+  //       }
+  //
+  //       if (record[0].maxContentLength === -1) {
+  //         console.error("FETCH_SUPPLY:", "No response from database.", record);
+  //       }
+  //     });
+  // },
 
   // SAVE_SUPPLY(state) {
   //
@@ -160,7 +160,7 @@ const mutations = {
   //   let houseId = localStorage.getItem('houseId');
   //   let token = localStorage.getItem('token');
   //
-  //     if(state.postOkay === true){
+  //     if(state.okayToPost === true){
   //     globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
   //       .then(response => {
   //         state.fireBaseWrites.push(now);
@@ -180,7 +180,7 @@ const mutations = {
 
 
 const actions = {
-  testFn({context}){
+  testFn({context}) {
 
     let houseId = localStorage.getItem('houseId');
     let token = localStorage.getItem('token');
@@ -194,14 +194,13 @@ const actions = {
       });
 
 
-
   },
 
   AddSupply({dispatch, commit}, supply) {
     /*  expects a supply object {item:, have: } */
     commit('ADD_SUPPLY', supply);
     // commit('SAVE_SUPPLY');
-    dispatch('saveSupply');
+    dispatch('saveSupply', 'AddSupply');
   },
 
   confirmChange({dispatch, commit, state}) {
@@ -209,7 +208,7 @@ const actions = {
     if (state.changed === true) {
       if (confirm("Save changes?")) {
         // commit('SAVE_SUPPLY');
-        dispatch('saveSupply');
+        dispatch('saveSupply', 'confirmChange');
         state.changed = false;
       }
     }
@@ -219,7 +218,8 @@ const actions = {
     /* expects the array index of the item to be deleted */
     commit('DELETE_ITEM', index);
     // commit('SAVE_SUPPLY');
-    dispatch('saveSupply');
+    // dispatch('saveSupply');
+    dispatch('saveSupply', 'deleteItem');
   },
 
   fetchSupply({dispatch, commit}) {
@@ -246,53 +246,91 @@ const actions = {
         }
       });
   },
+  /* for NOW this is to help prevent supply overwrites at startup
+  *  if it works, make a general feature and apply it widely
+  * */
+  initSupply({dispatch, commit, state}) {
 
-  // flipInCartBool({commit}, payload) {
+    let token = localStorage.getItem('token');
+    let houseId = localStorage.getItem('houseId');
+
+    globalAxios.get('houses/' + houseId + '/okayToPost.json?auth=' + token)
+      .then(resp => {
+        // console.log(resp.data);
+        state.okayToPost = resp.data;
+
+      })
+      .catch(err => console.error(err));
+
+
+  },
+
+  // flipBool({commit}, payload) {
   //   /* expects a supply object {item:, have: } */
   //   commit('FLIP_IN_CART_BOOL', payload);
   //   commit('SAVE_SUPPLY');
   // },
 
   /* dispatched from beforeDestroy in supply display components */
-  saveSupply({commit}){
-
-    console.log('saving supplies');
-
+  saveSupply({commit, rootGetters}, name) {
+    /* if housename convolution is to test whether the okayToPost boolean
+    *   will prevent the supply node from getting deleted when I'm not looking
+    *   IF it persists in Christmas Town, but not in other houses,then I think
+    *   it works
+    * */
+      //this block of lets is for debugging
+    let houseName = rootGetters['house/getActiveHouse'].houseName;
     let timeStamp = Date.now();
     let now = timeStamp.toString();
+    // end debug lets
 
     let houseId = localStorage.getItem('houseId');
     let token = localStorage.getItem('token');
 
-    // if(state.postOkay === true){
+
+    if (houseName === "Christmas Town") {
+      if (state.okayToPost === true) {
+        globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
+          .then(function () {
+            state.fireBaseWrites.push(now);
+            console.log('putting supplies from ' + name, now);
+          })
+          .catch(error => {
+            console.error('SAVE_SUPPLY', error)
+          });
+      } else {
+        return;
+      }
+    } else {
       globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
-        .then(function() {
+        .then(function () {
           state.fireBaseWrites.push(now);
           console.log('putting supplies', now);
         })
         .catch(error => {
           console.error('SAVE_SUPPLY', error)
         });
-    // } else {
-    //   return;
-    // }
+    }
 
 
     // commit('SAVE_SUPPLY');
   },
 
   setDisplayHaveSwitch({dispatch, commit}, payloadBool) {
+    // the infinite loop is pass through here
     /* expects a boolean */
     commit('SET_DISPLAY_HAVE_SWITCH', payloadBool);
     // commit('SAVE_SUPPLY');
-    dispatch('saveSupply');
+    // dispatch('saveSupply');
+    dispatch('saveSupply', 'setDisplayHaveSwitch');
   },
 
   switchAllHaveStatus({dispatch, commit}) {
     /* changes all the bools in the supply array to same */
     commit('SWITCH_ALL_HAVE_STATUS');
     // commit('SAVE_SUPPLY');
-    dispatch('saveSupply');
+    dispatch('saveSupply', 'switchAllHaveStatus');
+    // dispatch('saveSupply');
 
   },
 

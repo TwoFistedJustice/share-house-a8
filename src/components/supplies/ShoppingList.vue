@@ -55,7 +55,7 @@
     },
     beforeDestroy() {
       let thing = 'saveSupply';
-      this.saveSupplies();
+      this.saveSupplies('ShoppingList.vue beforeDestroy');
     },
 
   }

@@ -64,7 +64,7 @@
 
     methods: {
       ...mapActions({
-        changeItemHaveStatus: 'supply/flipInCartBool',
+        changeItemHaveStatus: 'supply/flipBool',
         saveSupplies: 'supply/saveSupply',
         // setDisplayHaveSwitch: 'supply/setDisplayHaveSwitch',
         switchAllHaveStatus: 'supply/switchAllHaveStatus'
@@ -101,7 +101,7 @@
 
     beforeDestroy() {
       let thing = 'saveSupply';
-      this.saveSupplies();
+      this.saveSupplies('suppliesInventory.vue beforeDestroy');
     },
 
 
