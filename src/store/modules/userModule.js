@@ -95,7 +95,7 @@ const actions = {
   },
 
   setUserInfo({commit}, payload) {
-    console.log('********user/setUserInfo', payload);
+    // console.log('********user/setUserInfo', payload);
     /* payload looks just like userBlob in the else block*/
     /* if no payload is passed, it means user does not belong to a house
     *  only then go to the dB and get their info,otherwise it comes from their

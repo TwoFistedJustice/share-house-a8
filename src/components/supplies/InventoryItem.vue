@@ -28,7 +28,7 @@
 
     methods:{
       ...mapActions({
-        changeItemBoolStatus: 'supply/flipInCartBool'
+        // changeItemBoolStatus: 'supply/flipInCartBool'
       }),
 
       flipBool(){

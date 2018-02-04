@@ -291,7 +291,7 @@ const actions = {
 
         globalAxios.get('/users/' + memberArray[i].id + '.json?auth=' + token)
           .then(response => {
-            console.log('fetchMembers GET', response);
+            // console.log('fetchMembers GET', response);
             let memberBlob = {
               id: memberArray[i].id,
               isAdmin: memberArray[i].isAdmin,

@@ -42,8 +42,8 @@
       }),
 
       haveNeedText() {
-        //changes the switch button text to match functionality
-        //sets the central supply bool in vuex
+        /* changes the switch button text to match functionality
+        *  sets the central supply bool in vuex */
 
         //TODO this line causes supply.module.changed to get set,it needs to not do that
         //because it fires the changed bool setter in supply module
@@ -51,14 +51,14 @@
         // this.setDisplayHaveSwitch(this.checkArrayBools());
         this.$store.dispatch('supply/setDisplayHaveSwitch', this.checkArrayBools(), gObj_hasRoot);
 
-
-
         if (this.getHaveSwitch === true) {
           return 'Need';
         } else {
           return 'Have';
         }
-      }
+      },
+
+
 
     },//end computed
 
@@ -66,18 +66,18 @@
       ...mapActions({
         changeItemHaveStatus: 'supply/flipInCartBool',
         saveSupplies: 'supply/saveSupply',
-        setDisplayHaveSwitch: 'supply/setDisplayHaveSwitch',
+        // setDisplayHaveSwitch: 'supply/setDisplayHaveSwitch',
         switchAllHaveStatus: 'supply/switchAllHaveStatus'
       }),
       checkArrayBools() {
-        //This fn sets the buttonHaveSwitch property to govern the switch-all button text
-        //check boolean contents of getSupplies[], if all are same
-        //change the button value
+        /* This fn sets the buttonHaveSwitch property to govern the switch-all button text
+        *  check boolean contents of getSupplies[], if all are same
+        *  it changes the button value  */
         let holdingBool = false;
 
-        //convert the have bools to zero or one and add them up
-        //if the sum is equal to zero or to the length of the array
-        //set the holding bool to false if zero, and true if length
+        /* convert the have bools to zero or one and add them up
+        *  if the sum is equal to zero or to the length of the array
+        *  set the holding bool to false if zero, and true if length */
         let sum = 0;
         //could use forEach
         for (let i = 0; i < this.getSupplies.length; i++) {

@@ -7,7 +7,10 @@ BUG: setDisplayHaveSwitch is on infinite loop
        proposed solution: dispatch the action directly from the computed property
           - first one didn't work...
        may also be that it is passed a method, rather than being fully computed
-       refactor checkArrayBools to a computed property
+       refactor checkArrayBools to a computed property - NOPE - doesn't work at all if computed prop
+
+       The behavior seems to have stopped after logging off and logging on, so maybe this fixed it?
+       I changed it back and it still isn't happening. Maybe it was a malfunction of npm?
 
 
 BUG: state.adminCount not decreasing when admins removed
@@ -15,8 +18,16 @@ BUG: state.memberCount still active after log out
 
 
 
-BUG: all supplies deleted from DB at logout
+BUG: all supplies deleted from DB -
       - intermittent
+      - doesn't happen to house nodes that haven't been logged into recently
+      - WHAT IF... the app tries to load the supplies from the DB, which leaves state.supplies null,
+      but before it gets a response, saves the null-supplies. This could wipe out the node in firebase!
+      - maybe: have it check a bool prior to save. That bool must be set at creation but only by a successful
+        response from the DB
+
+
+
 Add: only admins can see adminLists
 
 

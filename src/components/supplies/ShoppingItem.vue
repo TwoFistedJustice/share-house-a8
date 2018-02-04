@@ -2,11 +2,19 @@
   <div class="col-sm-6 col-md-6">
     <div class="panel"
          v-bind:class="{'panel-danger': !supply.inCart, 'panel-success': supply.inCart}">
+      <!--<div class="flex panel-heading"-->
+           <!--@click="changeItemBoolStatus( {supply: supply, bool: 'inCart'} )">-->
+        <!--<h2 v-if="supply.inCart"> Added to cart: {{supply.item}}</h2>-->
+        <!--<h2 v-if="!supply.inCart">{{supply.item}}</h2>-->
+      <!--</div>-->
+
       <div class="flex panel-heading"
-           @click="changeItemBoolStatus( {supply: supply, bool: 'inCart'} )">
+           @click="flipBool">
         <h2 v-if="supply.inCart"> Added to cart: {{supply.item}}</h2>
         <h2 v-if="!supply.inCart">{{supply.item}}</h2>
       </div>
+
+
     </div>
   </div>
 </template>
@@ -19,15 +27,20 @@
    ********************************************************** */
 
   import {mapActions} from 'vuex';
+  // import {gObj_hasRoot} from "../../config";
 
   export default {
     props: ['supply'],
     methods: {
       ...mapActions({
-        changeItemBoolStatus: 'supply/flipInCartBool'
+        changeItemBoolStatus: 'supply/flipInCartBool',
+        saveSupplies: 'supply/saveSupply'
       }),
       flipBool() {
         this.supply.inCart = !this.supply.inCart;
+        let thing = 'saveSupply';
+        this.saveSupplies();
+        // this.$store.dispatch('supply/saveSupply', null, gObj_hasRoot);
       }
 
     }

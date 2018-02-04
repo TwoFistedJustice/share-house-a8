@@ -22,7 +22,10 @@ const state = {
   //should be false until supplies are changed, set back when saved
   changed: false,
   //using this to determine why firebase keeps deleting the supply node
-  fireBaseWrites: []
+  fireBaseWrites: [],
+  /* this must be set to true to allow DB writes to supply node */
+  postOkay: null
+
 
 }; //END STATE
 
@@ -72,20 +75,20 @@ const mutations = {
   //NOT NEEDED - CAN BE DONE IN COMPONENT WITH ONE LINE OF CODE
   // Deprecated in A6
 
-  FLIP_IN_CART_BOOL(state, payload) {
-    /* expects a supply object and a string {item:, have: },
-    *  string: which bool to set, either "have" or "inCart" */
-    try {
-      if (payload.bool === 'have') {
-        payload.supply.have = !payload.supply.have;
-      } else {
-        payload.supply.inCart = !payload.supply.inCart;
-      }
-    }
-    catch (err) {
-      console.error(err, "MUTATE_FLIP_ITEM_BOOL: ", "You must specify a bool to flip in the supply item");
-    }
-  },
+  // FLIP_IN_CART_BOOL(state, payload) {
+  //   /* expects a supply object and a string {item:, have: },
+  //   *  string: which bool to set, either "have" or "inCart" */
+  //   try {
+  //     if (payload.bool === 'have') {
+  //       payload.supply.have = !payload.supply.have;
+  //     } else {
+  //       payload.supply.inCart = !payload.supply.inCart;
+  //     }
+  //   }
+  //   catch (err) {
+  //     console.error(err, "MUTATE_FLIP_ITEM_BOOL: ", "You must specify a bool to flip in the supply item");
+  //   }
+  // },
 
 
   DELETE_ITEM(state, index) {
@@ -149,24 +152,28 @@ const mutations = {
       });
   },
 
-  SAVE_SUPPLY(state) {
-
-    let timeStamp = Date.now();
-    let now = timeStamp.toString();
-
-    let houseId = localStorage.getItem('houseId');
-    let token = localStorage.getItem('token');
-
-
-      globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
-        .then(response => {
-          state.fireBaseWrites.push(now);
-          console.log('putting supplies', now);
-        })
-        .catch(error => {
-          console.error('SAVE_SUPPLY', error)
-        });
-  },
+  // SAVE_SUPPLY(state) {
+  //
+  //   let timeStamp = Date.now();
+  //   let now = timeStamp.toString();
+  //
+  //   let houseId = localStorage.getItem('houseId');
+  //   let token = localStorage.getItem('token');
+  //
+  //     if(state.postOkay === true){
+  //     globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
+  //       .then(response => {
+  //         state.fireBaseWrites.push(now);
+  //         console.log('putting supplies', now);
+  //       })
+  //       .catch(error => {
+  //         console.error('SAVE_SUPPLY', error)
+  //       });
+  //     } else {
+  //       return;
+  //     }
+  //
+  // },
 
 
 };// END MUTATIONS
@@ -190,65 +197,110 @@ const actions = {
 
   },
 
-  AddSupply({commit}, supply) {
+  AddSupply({dispatch, commit}, supply) {
     /*  expects a supply object {item:, have: } */
     commit('ADD_SUPPLY', supply);
-    console.log('AddSupply firing save supply');
-    commit('SAVE_SUPPLY');
+    // commit('SAVE_SUPPLY');
+    dispatch('saveSupply');
   },
 
-  confirmChange({state, commit}) {
+  confirmChange({dispatch, commit, state}) {
 
     if (state.changed === true) {
       if (confirm("Save changes?")) {
-        console.log('confirmChange firing save supply');
-        commit('SAVE_SUPPLY');
+        // commit('SAVE_SUPPLY');
+        dispatch('saveSupply');
         state.changed = false;
       }
     }
   },
 
-  deleteItem({commit}, index) {
+  deleteItem({dispatch, commit}, index) {
     /* expects the array index of the item to be deleted */
     commit('DELETE_ITEM', index);
-    console.log('deleteItem firing save supply');
-    commit('SAVE_SUPPLY');
+    // commit('SAVE_SUPPLY');
+    dispatch('saveSupply');
   },
 
-  fetchSupply({commit}) {
-    commit('FETCH_SUPPLY');
+  fetchSupply({dispatch, commit}) {
+    let houseId = localStorage.getItem('houseId');
+    let token = localStorage.getItem('token');
+
+    globalAxios.get('houses/' + houseId + '/supplies.json?auth=' + token)
+      .then(response => {
+        return response.data;
+      })
+      .then(data => {
+        /* axios converts to array automagically! :-)
+         * must use slice or it makes reference copies */
+        state.supplies = data.slice(0, data.length);
+      })
+      .catch(error => {
+        let record = [];
+        for (let key in error) {
+          record.push(error[key]);
+        }
+
+        if (record[0].maxContentLength === -1) {
+          console.error("FETCH_SUPPLY:", "No response from database.", record);
+        }
+      });
   },
 
-  flipInCartBool({commit}, payload) {
-    /* expects a supply object {item:, have: } */
-    commit('FLIP_IN_CART_BOOL', payload);
-    commit('SAVE_SUPPLY');
-  },
+  // flipInCartBool({commit}, payload) {
+  //   /* expects a supply object {item:, have: } */
+  //   commit('FLIP_IN_CART_BOOL', payload);
+  //   commit('SAVE_SUPPLY');
+  // },
 
   /* dispatched from beforeDestroy in supply display components */
   saveSupply({commit}){
-    commit('SAVE_SUPPLY');
+
+    console.log('saving supplies');
+
+    let timeStamp = Date.now();
+    let now = timeStamp.toString();
+
+    let houseId = localStorage.getItem('houseId');
+    let token = localStorage.getItem('token');
+
+    // if(state.postOkay === true){
+      globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
+        .then(function() {
+          state.fireBaseWrites.push(now);
+          console.log('putting supplies', now);
+        })
+        .catch(error => {
+          console.error('SAVE_SUPPLY', error)
+        });
+    // } else {
+    //   return;
+    // }
+
+
+    // commit('SAVE_SUPPLY');
   },
 
-  setDisplayHaveSwitch({commit}, payloadBool) {
+  setDisplayHaveSwitch({dispatch, commit}, payloadBool) {
     /* expects a boolean */
     commit('SET_DISPLAY_HAVE_SWITCH', payloadBool);
-    console.log('setDisplayHaveSwitch firing save supply');
-    commit('SAVE_SUPPLY');
-
+    // commit('SAVE_SUPPLY');
+    dispatch('saveSupply');
   },
 
-  switchAllHaveStatus({commit}) {
+  switchAllHaveStatus({dispatch, commit}) {
     /* changes all the bools in the supply array to same */
     commit('SWITCH_ALL_HAVE_STATUS');
-    commit('SAVE_SUPPLY');
+    // commit('SAVE_SUPPLY');
+    dispatch('saveSupply');
+
   },
 
-  toggleHaveStatus({commit}) {
+  toggleHaveStatus({dispatch, commit}) {
     /* toggles the bool in a single supply object {item:, have: } */
     commit('TOGGLE_HAVE_STATUS');
-    console.log('toggleHaveStatus firing save supply');
-    commit('SAVE_SUPPLY');
+    // commit('SAVE_SUPPLY');
+    dispatch('saveSupply');
   },
 
 
