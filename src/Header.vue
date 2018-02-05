@@ -160,7 +160,8 @@
 
         // confirm("Which button would you like to press to blow up the earth?");
         // console.log('test');
-        this.$store.dispatch('supply/testFn', null, gObj_hasRoot);
+        // this.$store.dispatch('supply/testFn', null, gObj_hasRoot);
+        this.$store.commit('supply/SET_BUTTON_HAVE_SWITCH', null, gObj_hasRoot);
       },
       onLogout() {
         this.$store.dispatch('auth/logout', null, gObj_hasRoot);

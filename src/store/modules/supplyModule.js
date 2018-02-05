@@ -72,6 +72,7 @@ const mutations = {
       state.supplies.push(supply);
     }
   },
+
   //NOT NEEDED - CAN BE DONE IN COMPONENT WITH ONE LINE OF CODE
   // Deprecated in A6
 
@@ -104,9 +105,44 @@ const mutations = {
     state.changed = true;
   },
 
-  SET_DISPLAY_HAVE_SWITCH(state, payloadBool) {
-    /* receives a boolean and sets central buttonHaveSwitch to that boolean */
-    state.buttonHaveSwitch = payloadBool;
+  // SET_DISPLAY_HAVE_SWITCH(state, payloadBool) {
+  //   /* receives a boolean and sets central buttonHaveSwitch to that boolean */
+  //   state.buttonHaveSwitch = payloadBool;
+  // },
+
+  SET_BUTTON_HAVE_SWITCH(state){
+    //this seems to replace SET_DISPLAY_HAVE_SWITCH
+    /* this should do what checkArrayBools did in SuppliesInventory.vue*/
+
+    /* This sums up the have: bool property in each supply object in the array
+     *  If the sum of them equal the length of the supply array, then buttonHaveSwtich
+     *  is set to true. Otherwise it is set to false.
+     *  buttonHaveSwtich controls the value of the switch all button on SuppliesInventory.vue
+      * */
+    let holdingBool = false;
+    let supplies = state.supplies;
+
+    /* convert the have bools to zero or one and add them up
+    *  if the sum is equal to zero or to the length of the array
+    *  set the holding bool to false if zero, and true if length */
+    let sum = 0;
+    /* add one or zero to val */
+    for (let i = 0; i < supplies.length; i++) {
+      let val = supplies[i].have ? 1 : 0;
+      sum += val;
+    }
+    if (sum === 0) {
+      holdingBool = false;
+    } else if (sum === supplies.length) {
+      holdingBool = true;
+    } else {
+      holdingBool = state.buttonHaveSwitch;
+    }
+
+    state.buttonHaveSwitch = holdingBool;
+
+    console.log('haveSwithc = ', state.buttonHaveSwitch);
+
   },
 
   SWITCH_ALL_HAVE_STATUS(state) {
@@ -236,6 +272,9 @@ const actions = {
         state.supplies = data.slice(0, data.length);
       })
       .catch(error => {
+        //make it so if error is not 200,okayToPost gets set to null,
+        //then set it back when the server finally responds
+
         let record = [];
         for (let key in error) {
           record.push(error[key]);
@@ -256,13 +295,11 @@ const actions = {
 
     globalAxios.get('houses/' + houseId + '/okayToPost.json?auth=' + token)
       .then(resp => {
-        // console.log(resp.data);
+        console.log('okay to post set to '+ resp.data);
         state.okayToPost = resp.data;
 
       })
       .catch(err => console.error(err));
-
-
   },
 
   // flipBool({commit}, payload) {
@@ -316,13 +353,15 @@ const actions = {
     // commit('SAVE_SUPPLY');
   },
 
-  setDisplayHaveSwitch({dispatch, commit}, payloadBool) {
-    // the infinite loop is pass through here
+  // setDisplayHaveSwitch({dispatch, commit}, payloadBool) {
+  setDisplayHaveSwitch({dispatch, commit}) {
+    // the infinite loop passes through here - maybe related to save...
     /* expects a boolean */
-    commit('SET_DISPLAY_HAVE_SWITCH', payloadBool);
+    commit('SET_BUTTON_HAVE_SWITCH');
+    // commit('SET_DISPLAY_HAVE_SWITCH', payloadBool);
     // commit('SAVE_SUPPLY');
     // dispatch('saveSupply');
-    dispatch('saveSupply', 'setDisplayHaveSwitch');
+    // dispatch('saveSupply', 'setDisplayHaveSwitch');
   },
 
   switchAllHaveStatus({dispatch, commit}) {

@@ -19,8 +19,6 @@
         :key="supply.item"
         :supply="supply"></app-inventory-item>
     </div>
-
-
   </div>
 </template>
 
@@ -45,11 +43,9 @@
         /* changes the switch button text to match functionality
         *  sets the central supply bool in vuex */
 
-        //TODO this line causes supply.module.changed to get set,it needs to not do that
-        //because it fires the changed bool setter in supply module
-        //may need to separate the click setting from this one
         // this.setDisplayHaveSwitch(this.checkArrayBools());
-        this.$store.dispatch('supply/setDisplayHaveSwitch', this.checkArrayBools(), gObj_hasRoot);
+        // this.$store.dispatch('supply/setDisplayHaveSwitch', this.checkArrayBools(), gObj_hasRoot);
+        this.$store.dispatch('supply/setDisplayHaveSwitch', null, gObj_hasRoot);
 
         if (this.getHaveSwitch === true) {
           return 'Need';
@@ -57,9 +53,6 @@
           return 'Have';
         }
       },
-
-
-
     },//end computed
 
     methods: {
@@ -79,7 +72,7 @@
         *  if the sum is equal to zero or to the length of the array
         *  set the holding bool to false if zero, and true if length */
         let sum = 0;
-        //could use forEach
+        /* add one or zero to val */
         for (let i = 0; i < this.getSupplies.length; i++) {
           let val = this.getSupplies[i].have ? 1 : 0;
           sum += val;

@@ -31,6 +31,7 @@
       //       console.log('*****************created*******************');
       let thing1 = 'loginOmatic';
       let thing2 = 'fetchSupply';
+      let thing3 = 'initSupply';
       this.$store.dispatch('chores/initChores', null, gObj_hasRoot);
       //      this.$store.dispatch('initData');
       this.$store.dispatch('supply/initSupply', null, gObj_hasRoot);
