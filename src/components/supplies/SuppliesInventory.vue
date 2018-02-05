@@ -62,30 +62,30 @@
         // setDisplayHaveSwitch: 'supply/setDisplayHaveSwitch',
         switchAllHaveStatus: 'supply/switchAllHaveStatus'
       }),
-      checkArrayBools() {
-        /* This fn sets the buttonHaveSwitch property to govern the switch-all button text
-        *  check boolean contents of getSupplies[], if all are same
-        *  it changes the button value  */
-        let holdingBool = false;
-
-        /* convert the have bools to zero or one and add them up
-        *  if the sum is equal to zero or to the length of the array
-        *  set the holding bool to false if zero, and true if length */
-        let sum = 0;
-        /* add one or zero to val */
-        for (let i = 0; i < this.getSupplies.length; i++) {
-          let val = this.getSupplies[i].have ? 1 : 0;
-          sum += val;
-        }
-        if (sum === 0) {
-          holdingBool = false;
-        } else if (sum === this.getSupplies.length) {
-          holdingBool = true;
-        } else {
-          holdingBool = this.buttonHaveSwitch;
-        }
-        return holdingBool;
-      }, //end checkArrayBools
+      // checkArrayBools() {
+      //   /* This fn sets the buttonHaveSwitch property to govern the switch-all button text
+      //   *  check boolean contents of getSupplies[], if all are same
+      //   *  it changes the button value  */
+      //   let holdingBool = false;
+      //
+      //   /* convert the have bools to zero or one and add them up
+      //   *  if the sum is equal to zero or to the length of the array
+      //   *  set the holding bool to false if zero, and true if length */
+      //   let sum = 0;
+      //   /* add one or zero to val */
+      //   for (let i = 0; i < this.getSupplies.length; i++) {
+      //     let val = this.getSupplies[i].have ? 1 : 0;
+      //     sum += val;
+      //   }
+      //   if (sum === 0) {
+      //     holdingBool = false;
+      //   } else if (sum === this.getSupplies.length) {
+      //     holdingBool = true;
+      //   } else {
+      //     holdingBool = this.buttonHaveSwitch;
+      //   }
+      //   return holdingBool;
+      // }, //end checkArrayBools
 
     }, //END METHODS
     components: {
