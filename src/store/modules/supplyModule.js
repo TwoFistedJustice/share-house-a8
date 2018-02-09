@@ -325,7 +325,8 @@ const actions = {
     let token = localStorage.getItem('token');
 
 
-    if (houseName === "Christmas Town") {
+    // if (houseName === "Christmas Town") {
+
       if (state.okayToPost === true) {
         globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
           .then(function () {
@@ -338,25 +339,26 @@ const actions = {
       } else {
         return;
       }
-    } else {
-      globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
-        .then(function () {
-          state.fireBaseWrites.push(now);
-          console.log('putting supplies', now);
-        })
-        .catch(error => {
-          console.error('SAVE_SUPPLY', error)
-        });
-    }
+    // } else {
+    //   globalAxios.put('houses/' + houseId + '/supplies.json?auth=' + token, state.supplies)
+    //     .then(function () {
+    //       state.fireBaseWrites.push(now);
+    //       console.log('putting supplies', now);
+    //     })
+    //     .catch(error => {
+    //       console.error('SAVE_SUPPLY', error)
+    //     });
+    // }
 
 
     // commit('SAVE_SUPPLY');
   },
 
   // setDisplayHaveSwitch({dispatch, commit}, payloadBool) {
+  // the infinite loop passes through here - maybe related to save...
+  /* expects a boolean */
   setDisplayHaveSwitch({dispatch, commit}) {
-    // the infinite loop passes through here - maybe related to save...
-    /* expects a boolean */
+
     commit('SET_BUTTON_HAVE_SWITCH');
     // commit('SET_DISPLAY_HAVE_SWITCH', payloadBool);
     // commit('SAVE_SUPPLY');
