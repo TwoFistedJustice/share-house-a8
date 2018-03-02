@@ -13,7 +13,7 @@
 
 <script>
   import Header from './Header.vue';
-  import {gObj_hasRoot} from "./config";
+  import {gObj_hasRoot} from "./config.js";
   //import {mapActions} from 'vuex';
 
 

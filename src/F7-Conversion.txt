@@ -1,0 +1,19 @@
+To convert to F7
+
+First set up routes. F7 does not work with vue-router. But f7 router may actually be easier to work with.
+
+f7-view is the equivalent of router-link.
+
+If you want the view to pop out put it inside f7-panel tag
+
+F7 is a true SPA framework. It is designed to work in ONE PAGE.
+
+Whatever you have set up as the '/' route, that's your navbar
+
+
+
+build a static supplies object into config.js and export it
+
+To start I may not even need vuex...
+
+

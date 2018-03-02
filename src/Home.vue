@@ -3,6 +3,18 @@
 <div>
     <div class="row">
         <h4>Home.vue</h4>
+
+      <h2>Alpha Version 9 - Next Version</h2>
+      <ul>
+<li>deprecates vue-router</li>
+<li>introduces Framework 7 Vue</li>
+<li>Users router from F7</li>
+<li>Retains Axios in lieu of F7 ajax (for now)</li>
+<li>Minimal changes to vuex store- only vue-router calls to be refactored</li>
+<li>Complete refactor of front end</li>
+<li>F7 will allow a true SPA</li>
+<li></li>
+      </ul>
       <H2>Alpha Version 8 - IN PROGRESS</H2>
       <h3>Features and Breakdown:</h3>
             <ul>

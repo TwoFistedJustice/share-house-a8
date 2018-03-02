@@ -3,6 +3,7 @@
   <div>
     <div class="row">
       <h4>AdminHouse.vue</h4>
+      <p>{{getNode}}</p>
 
       <!--   DISPLAY HOUSE INFO-->
       <div v-if="getBelongsToHouse">
@@ -137,7 +138,8 @@
         getActiveHouse: 'house/getActiveHouse',
         getBelongsToHouse: 'user/getBelongsToHouse',
         getHouseId: 'house/getHouseId',
-        isAdmin: 'user/getIsAdmin'
+        isAdmin: 'user/getIsAdmin',
+        getNode: 'house/getHousesNode'
 
       }),
 

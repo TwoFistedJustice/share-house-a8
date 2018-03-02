@@ -6,6 +6,7 @@ import {APIkey, gObj_hasRoot} from '../../config.js';
 const state = {
 
   houseId: null, //used when creating a new house - prolly same as activeHouse.houseId, but for now keep separate
+  housesNode: null,
 
   /* activeHouse properties are set from several different places
   *  There is not just one setter                                 */
@@ -45,6 +46,10 @@ const getters = {
     return state.activeHouse.members;
   },
 
+  getHousesNode(state){
+    return state.housesNode;
+  }
+
   };
 const mutations = {
 
@@ -66,9 +71,29 @@ const mutations = {
     state.activeHouse.members = members;
   },
 
+  SET_HOUSES_NODE(state, dataNode) {
+    console.log('setting ', dataNode);
+    state.housesNode = dataNode;
+  }
+
 };
 
 const actions = {
+
+  testfunction({commit}){
+    let token = localStorage.getItem('token');
+
+    // globalAxios.get('/houses.json/' + '?orderBy="houseName"&startAt="A"' + '&auth=' + token)
+    // globalAxios.get('/houses.json/' + '?orderBy="$key"&limitToLast=1' + '&auth=' + token) //this one works
+    globalAxios.get('/houses.json/' + '?orderBy="houseName"&limitToLast=1' + '&auth=' + token)
+    // globalAxios.get('/houses.json' + '?auth=' + token)
+      .then(resp => {
+        console.log(resp.data);
+        commit('SET_HOUSES_NODE', resp.data);
+      }
+      )
+    .catch(err => console.error(err));
+  },
 
     addCreatorAsMember({commit, dispatch}, pushId) {
       let token = localStorage.getItem('token');
@@ -350,6 +375,13 @@ const actions = {
       dispatch('user/addHouseToUser', houseBlob, gObj_hasRoot);
 
       //these will get moved into their appropriate modules as helpers then get dispatched when user adds data
+      //okayToPost is requested at app creation. If it returns anything but true, you can't save data
+      // this is because sometimes at creation the server responds more slowly than the app reacts and the
+      //app overwrites existing data with empty objects.
+
+      globalAxios.patch('houses/' + pushId + '.json/?auth=' + token, {okayToPost: true})
+        .then(resp => console.log('okayToPost' + resp))
+        .catch(err => console.error('instantiateHouse okayToPost fail', err));
 
       globalAxios.patch('houses/' + pushId + '/supplies.json?auth=' + token, {0: {have: false, inCart: false, item: 'Stuff & Things'}})
         .then(response => {

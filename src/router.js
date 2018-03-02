@@ -56,6 +56,7 @@ const routes = [
     path: '/signup', component: SignUp, name: 'signup',
     //if logged in go straight to dashboard
     beforeEnter(to, from, next) {
+      //in F7 the equivalent is "Async Route ...resolve... reject"
       if (store.state.auth.idToken) {
         next('/dashboard');
       } else {

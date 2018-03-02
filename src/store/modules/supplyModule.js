@@ -299,7 +299,7 @@ const actions = {
         state.okayToPost = resp.data;
 
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error('initSupply not okay to post' + err));
   },
 
   // flipBool({commit}, payload) {

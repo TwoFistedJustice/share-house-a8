@@ -39,7 +39,7 @@
       flipBool() {
         this.supply.inCart = !this.supply.inCart;
         let thing = 'saveSupply';
-        this.saveSupplies('ShoppingItem.vue flipBool');
+        this.saveSupplies('ShoppingItem.vue flipBool  ');
         // this.$store.dispatch('supply/saveSupply', null, gObj_hasRoot);
       }
 

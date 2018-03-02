@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import {gObj_hasRoot} from "../../config";
+  import {gObj_hasRoot} from "../../config.js";
 
   export default {
     data() {
